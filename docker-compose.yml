@@ -1,0 +1,30 @@
+services:
+  slack-mcp:
+    build:
+      context: .
+      target: production
+      dockerfile: Dockerfile
+    container_name: slack-mcp
+    restart: unless-stopped
+    ports:
+      - "${SLACK_MCP_HOST_PORT:-3005}:${SLACK_MCP_PORT:-3005}"
+    volumes:
+      - ./state/slack-cache:/root/.cache/slack-mcp-server
+    env_file:
+      - .env
+    environment:
+      SLACK_MCP_HOST: "0.0.0.0"
+      SLACK_MCP_PORT: "${SLACK_MCP_PORT:-3005}"
+      SLACK_MCP_PATH: "${SLACK_MCP_PATH:-/mcp}"
+    command: ["--transport", "http"]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:${SLACK_MCP_PORT:-3005}/health >/dev/null"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 90s
+
+networks:
+  default:
+    name: reverse_proxy
+    external: true

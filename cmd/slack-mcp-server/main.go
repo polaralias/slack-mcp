@@ -1,0 +1,445 @@
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"flag"
+	"fmt"
+	"net/http"
+	"os"
+	"strconv"
+	"strings"
+	"sync"
+	"time"
+
+	"github.com/korotovsky/slack-mcp-server/pkg/provider"
+	"github.com/korotovsky/slack-mcp-server/pkg/server"
+	serverauth "github.com/korotovsky/slack-mcp-server/pkg/server/auth"
+	"github.com/mattn/go-isatty"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+)
+
+var defaultMCPHost = "127.0.0.1"
+var defaultMCPPort = 3005
+var defaultMCPPath = "/mcp"
+
+func main() {
+	var transport string
+	var enabledToolsFlag string
+	var pathFlag string
+	flag.StringVar(&transport, "t", "stdio", "Transport type (stdio, sse or http)")
+	flag.StringVar(&transport, "transport", "stdio", "Transport type (stdio, sse or http)")
+	flag.StringVar(&enabledToolsFlag, "e", "", "Comma-separated list of enabled tools (empty = all tools)")
+	flag.StringVar(&enabledToolsFlag, "enabled-tools", "", "Comma-separated list of enabled tools (empty = all tools)")
+	flag.StringVar(&pathFlag, "path", "", "HTTP endpoint path for streamable HTTP transport")
+	flag.Parse()
+
+	if enabledToolsFlag == "" {
+		enabledToolsFlag = os.Getenv("SLACK_MCP_ENABLED_TOOLS")
+	}
+
+	var enabledTools []string
+	if enabledToolsFlag != "" {
+		for _, tool := range strings.Split(enabledToolsFlag, ",") {
+			tool = strings.TrimSpace(tool)
+			if tool != "" {
+				enabledTools = append(enabledTools, tool)
+			}
+		}
+	}
+
+	logger, err := newLogger(transport)
+	if err != nil {
+		panic(err)
+	}
+	defer logger.Sync()
+
+	addMessageToolEnv := os.Getenv("SLACK_MCP_ADD_MESSAGE_TOOL")
+	err = validateToolConfig(addMessageToolEnv)
+	if err != nil {
+		logger.Fatal("error in SLACK_MCP_ADD_MESSAGE_TOOL",
+			zap.String("context", "console"),
+			zap.Error(err),
+		)
+	}
+
+	err = server.ValidateEnabledTools(enabledTools)
+	if err != nil {
+		logger.Fatal("error in SLACK_MCP_ENABLED_TOOLS",
+			zap.String("context", "console"),
+			zap.Error(err),
+		)
+	}
+
+	p := provider.New(transport, logger)
+	s := server.NewMCPServer(p, logger, enabledTools)
+
+	go func() {
+		var once sync.Once
+
+		newUsersWatcher(p, &once, logger)()
+		newChannelsWatcher(p, &once, logger)()
+	}()
+
+	switch transport {
+	case "stdio":
+		for {
+			if ready, _ := p.IsReady(); ready {
+				break
+			}
+			time.Sleep(100 * time.Millisecond)
+		}
+		if err := s.ServeStdio(); err != nil {
+			logger.Fatal("Server error",
+				zap.String("context", "console"),
+				zap.Error(err),
+			)
+		}
+	case "sse":
+		host := resolveHost()
+		port := resolvePort()
+
+		sseServer := s.ServeSSE(":" + port)
+		logger.Info(
+			fmt.Sprintf("SSE server listening on %s", fmt.Sprintf("%s:%s/sse", host, port)),
+			zap.String("context", "console"),
+			zap.String("host", host),
+			zap.String("port", port),
+		)
+
+		if ready, _ := p.IsReady(); !ready {
+			logger.Info("Slack MCP Server is still warming up caches",
+				zap.String("context", "console"),
+			)
+		}
+
+		if err := sseServer.Start(host + ":" + port); err != nil {
+			logger.Fatal("Server error",
+				zap.String("context", "console"),
+				zap.Error(err),
+			)
+		}
+	case "http":
+		host := resolveHost()
+		port := resolvePort()
+		path := resolvePath(pathFlag)
+
+		httpServer := s.ServeHTTP(":"+port, path)
+		mux := http.NewServeMux()
+		healthHandler := newHealthHandler(p, enabledTools, path)
+		mux.HandleFunc("/", healthHandler)
+		mux.HandleFunc("/health", healthHandler)
+		mux.HandleFunc("/healthz", healthHandler)
+		mux.Handle(path, serverauth.RequireRequestAuth(httpServer, logger))
+
+		logger.Info(
+			fmt.Sprintf("HTTP server listening on %s", fmt.Sprintf("%s:%s%s", host, port, path)),
+			zap.String("context", "console"),
+			zap.String("host", host),
+			zap.String("port", port),
+			zap.String("path", path),
+		)
+
+		if ready, _ := p.IsReady(); !ready {
+			logger.Info("Slack MCP Server is still warming up caches",
+				zap.String("context", "console"),
+			)
+		}
+
+		srv := &http.Server{
+			Addr:              host + ":" + port,
+			Handler:           mux,
+			ReadHeaderTimeout: 10 * time.Second,
+		}
+
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			logger.Fatal("Server error",
+				zap.String("context", "console"),
+				zap.Error(err),
+			)
+		}
+	default:
+		logger.Fatal("Invalid transport type",
+			zap.String("context", "console"),
+			zap.String("transport", transport),
+			zap.String("allowed", "stdio, sse, http"),
+		)
+	}
+}
+
+func resolveHost() string {
+	if host := strings.TrimSpace(os.Getenv("SLACK_MCP_HOST")); host != "" {
+		return host
+	}
+	if host := strings.TrimSpace(os.Getenv("MCP_HOST")); host != "" {
+		return host
+	}
+	return defaultMCPHost
+}
+
+func resolvePort() string {
+	if port := strings.TrimSpace(os.Getenv("SLACK_MCP_PORT")); port != "" {
+		return port
+	}
+	if port := strings.TrimSpace(os.Getenv("MCP_PORT")); port != "" {
+		return port
+	}
+	return strconv.Itoa(defaultMCPPort)
+}
+
+func resolvePath(flagValue string) string {
+	for _, raw := range []string{flagValue, os.Getenv("SLACK_MCP_PATH"), os.Getenv("MCP_PATH")} {
+		trimmed := strings.TrimSpace(raw)
+		if trimmed == "" {
+			continue
+		}
+		return "/" + strings.Trim(trimmed, "/")
+	}
+	return defaultMCPPath
+}
+
+func newHealthHandler(p *provider.ApiProvider, enabledTools []string, path string) http.HandlerFunc {
+	return func(w http.ResponseWriter, _ *http.Request) {
+		ready, err := p.IsReady()
+		statusCode := http.StatusOK
+		status := "ok"
+		if !ready {
+			statusCode = http.StatusServiceUnavailable
+			status = "warming"
+		}
+
+		payload := map[string]any{
+			"status":       status,
+			"server":       "slack-mcp",
+			"ready":        ready,
+			"transport":    "http",
+			"path":         path,
+			"enabledTools": enabledTools,
+		}
+		if len(enabledTools) == 0 {
+			payload["enabledTools"] = "all"
+		}
+		if err != nil {
+			payload["detail"] = err.Error()
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(statusCode)
+		_ = json.NewEncoder(w).Encode(payload)
+	}
+}
+
+func newUsersWatcher(p *provider.ApiProvider, once *sync.Once, logger *zap.Logger) func() {
+	return func() {
+		logger.Info("Caching users collection...",
+			zap.String("context", "console"),
+		)
+
+		if os.Getenv("SLACK_MCP_XOXP_TOKEN") == "demo" || (os.Getenv("SLACK_MCP_XOXC_TOKEN") == "demo" && os.Getenv("SLACK_MCP_XOXD_TOKEN") == "demo") {
+			logger.Info("Demo credentials are set, skip",
+				zap.String("context", "console"),
+			)
+			return
+		}
+
+		err := p.RefreshUsers(context.Background())
+		if err != nil {
+			logger.Fatal("Error booting provider",
+				zap.String("context", "console"),
+				zap.Error(err),
+			)
+		}
+
+		ready, _ := p.IsReady()
+		if ready {
+			once.Do(func() {
+				logger.Info("Slack MCP Server is fully ready",
+					zap.String("context", "console"),
+				)
+			})
+		}
+	}
+}
+
+func newChannelsWatcher(p *provider.ApiProvider, once *sync.Once, logger *zap.Logger) func() {
+	return func() {
+		logger.Info("Caching channels collection...",
+			zap.String("context", "console"),
+		)
+
+		if os.Getenv("SLACK_MCP_XOXP_TOKEN") == "demo" || (os.Getenv("SLACK_MCP_XOXC_TOKEN") == "demo" && os.Getenv("SLACK_MCP_XOXD_TOKEN") == "demo") {
+			logger.Info("Demo credentials are set, skip.",
+				zap.String("context", "console"),
+			)
+			return
+		}
+
+		err := p.RefreshChannels(context.Background())
+		if err != nil {
+			logger.Fatal("Error booting provider",
+				zap.String("context", "console"),
+				zap.Error(err),
+			)
+		}
+
+		ready, _ := p.IsReady()
+		if ready {
+			once.Do(func() {
+				logger.Info("Slack MCP Server is fully ready.",
+					zap.String("context", "console"),
+				)
+			})
+		}
+	}
+}
+
+func validateToolConfig(config string) error {
+	if config == "" || config == "true" || config == "1" {
+		return nil
+	}
+
+	items := strings.Split(config, ",")
+	hasNegated := false
+	hasPositive := false
+
+	for _, item := range items {
+		item = strings.TrimSpace(item)
+		if item == "" {
+			continue
+		}
+		if strings.HasPrefix(item, "!") {
+			hasNegated = true
+		} else {
+			hasPositive = true
+		}
+	}
+
+	if hasNegated && hasPositive {
+		return fmt.Errorf("cannot mix allowed and disallowed (! prefixed) channels")
+	}
+
+	return nil
+}
+
+func newLogger(transport string) (*zap.Logger, error) {
+	atomicLevel := zap.NewAtomicLevelAt(zap.InfoLevel)
+	if envLevel := os.Getenv("SLACK_MCP_LOG_LEVEL"); envLevel != "" {
+		if err := atomicLevel.UnmarshalText([]byte(envLevel)); err != nil {
+			fmt.Printf("Invalid log level '%s': %v, using 'info'\n", envLevel, err)
+		}
+	}
+
+	useJSON := shouldUseJSONFormat()
+	useColors := shouldUseColors() && !useJSON
+
+	outputPath := "stdout"
+	if transport == "stdio" {
+		outputPath = "stderr"
+	}
+
+	var config zap.Config
+
+	if useJSON {
+		config = zap.Config{
+			Level:            atomicLevel,
+			Development:      false,
+			Encoding:         "json",
+			OutputPaths:      []string{outputPath},
+			ErrorOutputPaths: []string{"stderr"},
+			EncoderConfig: zapcore.EncoderConfig{
+				TimeKey:       "timestamp",
+				LevelKey:      "level",
+				NameKey:       "logger",
+				MessageKey:    "message",
+				StacktraceKey: "stacktrace",
+				EncodeLevel:   zapcore.LowercaseLevelEncoder,
+				EncodeTime:    zapcore.RFC3339TimeEncoder,
+				EncodeCaller:  zapcore.ShortCallerEncoder,
+			},
+		}
+	} else {
+		config = zap.Config{
+			Level:            atomicLevel,
+			Development:      true,
+			Encoding:         "console",
+			OutputPaths:      []string{outputPath},
+			ErrorOutputPaths: []string{"stderr"},
+			EncoderConfig: zapcore.EncoderConfig{
+				TimeKey:          "timestamp",
+				LevelKey:         "level",
+				NameKey:          "logger",
+				MessageKey:       "msg",
+				StacktraceKey:    "stacktrace",
+				EncodeLevel:      getConsoleLevelEncoder(useColors),
+				EncodeTime:       zapcore.ISO8601TimeEncoder,
+				EncodeCaller:     zapcore.ShortCallerEncoder,
+				ConsoleSeparator: " | ",
+			},
+		}
+	}
+
+	logger, err := config.Build(zap.AddCaller())
+	if err != nil {
+		return nil, err
+	}
+
+	logger = logger.With(zap.String("app", "slack-mcp-server"))
+
+	return logger, err
+}
+
+// shouldUseJSONFormat determines if JSON format should be used
+func shouldUseJSONFormat() bool {
+	if format := os.Getenv("SLACK_MCP_LOG_FORMAT"); format != "" {
+		return strings.ToLower(format) == "json"
+	}
+
+	if env := os.Getenv("ENVIRONMENT"); env != "" {
+		switch strings.ToLower(env) {
+		case "production", "prod", "staging":
+			return true
+		case "development", "dev", "local":
+			return false
+		}
+	}
+
+	if os.Getenv("KUBERNETES_SERVICE_HOST") != "" ||
+		os.Getenv("DOCKER_CONTAINER") != "" ||
+		os.Getenv("container") != "" {
+		return true
+	}
+
+	if !isatty.IsTerminal(os.Stdout.Fd()) {
+		return true
+	}
+
+	return false
+}
+
+func shouldUseColors() bool {
+	if colorEnv := os.Getenv("SLACK_MCP_LOG_COLOR"); colorEnv != "" {
+		return colorEnv == "true" || colorEnv == "1"
+	}
+
+	if os.Getenv("NO_COLOR") != "" {
+		return false
+	}
+
+	if os.Getenv("FORCE_COLOR") != "" {
+		return true
+	}
+
+	if env := os.Getenv("ENVIRONMENT"); env == "development" || env == "dev" {
+		return isatty.IsTerminal(os.Stdout.Fd())
+	}
+
+	return isatty.IsTerminal(os.Stdout.Fd())
+}
+
+func getConsoleLevelEncoder(useColors bool) zapcore.LevelEncoder {
+	if useColors {
+		return zapcore.CapitalColorLevelEncoder
+	}
+	return zapcore.CapitalLevelEncoder
+}
