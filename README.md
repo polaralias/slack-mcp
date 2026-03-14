@@ -16,13 +16,18 @@ Standalone FastMCP Python server for Slack that proxies the preserved Slack runt
 
 ## Architecture
 
-This folder is the separate FastMCP Python refactor workspace for Slack.
+This repo packages the FastMCP Python Slack server and the preserved Slack backend runtime together.
 
 - The top-level server is Python/FastMCP.
 - The Python server handles HTTP MCP transport, API-key auth, compose-friendly deployment, and health routes.
 - The copied Slack runtime remains the backend implementation and is executed over stdio to preserve existing tool behavior, resources, and Slack-specific edge handling.
 
 That makes the client-facing server fully FastMCP Python while avoiding a risky full behavior rewrite of the Slack backend.
+
+## Reference Docs
+
+- [Tool reference](docs/tool-reference.md) contains the full public tool inventory, parameter details, and exposed resources (16 tools).
+- [Configuration reference](docs/configuration.md) explains auth, tool exposure gates, backend selection, ports, caching, and deployment notes.
 
 ## Configuration
 
@@ -92,17 +97,17 @@ Use this service in a larger compose stack when you want one project containing 
 services:
   slack-mcp:
     build:
-      context: /path/to/slack-fastmcp-python
+      context: /path/to/slack-mcp
       dockerfile: Dockerfile
     restart: unless-stopped
     env_file:
-      - /path/to/slack-fastmcp-python/.env
+      - /path/to/slack-mcp/.env
     environment:
       MCP_HOST: 0.0.0.0
       MCP_PORT: "3005"
       MCP_PATH: /mcp
     volumes:
-      - /path/to/slack-fastmcp-python/state/slack-cache:/root/.cache/slack-mcp-server
+      - /path/to/slack-mcp/state/slack-cache:/root/.cache/slack-mcp-server
     ports:
       - "3005:3005"
     networks:
