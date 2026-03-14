@@ -1,14 +1,28 @@
 # slack-mcp
 
-Standalone Slack MCP server with direct HTTP transport, static API-key auth, and a compose-friendly cache volume.
+Standalone FastMCP Python server for Slack that proxies the preserved Slack runtime over stdio for feature parity.
 
 ## Highlights
 
 - Default MCP endpoint: `http://localhost:3005/mcp`
 - Default health endpoint: `http://localhost:3005/health`
 - Supports `SLACK_MCP_API_KEY`, `MCP_API_KEY`, or `MCP_API_KEYS`
-- Preserves the default read-only tool surface through `SLACK_MCP_ENABLED_TOOLS`
+- Preserves the current Slack tool surface and resources by proxying the copied Slack runtime
+- Supports the current browser-session auth parameters only:
+  - `SLACK_MCP_XOXC_TOKEN`
+  - `SLACK_MCP_XOXD_TOKEN`
 - Persists Slack cache data under `./state/slack-cache`
+- Supports full tool parity when `SLACK_MCP_ENABLED_TOOLS` is set to `all` or an explicitly blank value
+
+## Architecture
+
+This folder is the separate FastMCP Python refactor workspace for Slack.
+
+- The top-level server is Python/FastMCP.
+- The Python server handles HTTP MCP transport, API-key auth, compose-friendly deployment, and health routes.
+- The copied Slack runtime remains the backend implementation and is executed over stdio to preserve existing tool behavior, resources, and Slack-specific edge handling.
+
+That makes the client-facing server fully FastMCP Python while avoiding a risky full behavior rewrite of the Slack backend.
 
 ## Configuration
 
@@ -25,10 +39,17 @@ Common optional settings:
 - `SLACK_MCP_PORT`
 - `SLACK_MCP_PATH`
 - `API_KEY_MODE`
-- `SLACK_MCP_RUN_MODE`
+- `SLACK_MCP_BACKEND_MODE`
+- `SLACK_MCP_BACKEND_BINARY`
+- `SLACK_MCP_PACKAGE_SPEC`
 - `SLACK_MCP_USER_AGENT`
 - `SLACK_MCP_PROXY`
 - `SLACK_MCP_CACHE_TTL`
+
+Tool selection note:
+
+- If `SLACK_MCP_ENABLED_TOOLS` is not set, this workspace defaults to the same read-focused tool subset used in the compose refactor.
+- If you want the full Slack tool surface, set `SLACK_MCP_ENABLED_TOOLS=all` or an explicitly blank value.
 
 Docker Compose note:
 
@@ -36,8 +57,8 @@ Docker Compose note:
 
 Authentication note:
 
-- The recommended configuration is browser-session auth with `SLACK_MCP_XOXC_TOKEN` and `SLACK_MCP_XOXD_TOKEN`
-- Leave `SLACK_MCP_XOXP_TOKEN` and `SLACK_MCP_XOXB_TOKEN` unset for this deployment flow
+- This refactor intentionally supports the current individual browser-session auth flow only.
+- Leave `SLACK_MCP_XOXP_TOKEN` and `SLACK_MCP_XOXB_TOKEN` unset.
 
 ## Run Locally
 
@@ -47,7 +68,11 @@ python scripts/run_server.py doctor
 python scripts/run_server.py url
 ```
 
-The local helper prefers the vendored Go source and can fall back to the published npm package when needed.
+The Python server will choose a backend in this order unless you override it:
+
+1. compiled backend binary
+2. local Go source with `go run`
+3. published npm package
 
 ## Run With Docker Compose
 
@@ -67,19 +92,17 @@ Use this service in a larger compose stack when you want one project containing 
 services:
   slack-mcp:
     build:
-      context: /path/to/slack-mcp
+      context: /path/to/slack-fastmcp-python
       dockerfile: Dockerfile
-      target: production
     restart: unless-stopped
     env_file:
-      - /path/to/slack-mcp/.env
+      - /path/to/slack-fastmcp-python/.env
     environment:
-      SLACK_MCP_HOST: 0.0.0.0
-      SLACK_MCP_PORT: "3005"
-      SLACK_MCP_PATH: /mcp
-    command: ["--transport", "http"]
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: "3005"
+      MCP_PATH: /mcp
     volumes:
-      - /path/to/slack-mcp/state/slack-cache:/root/.cache/slack-mcp-server
+      - /path/to/slack-fastmcp-python/state/slack-cache:/root/.cache/slack-mcp-server
     ports:
       - "3005:3005"
     networks:
@@ -99,6 +122,6 @@ If you do not need host port publishing because you are fronting the service wit
 
 ## Repository Notes
 
+- The FastMCP Python layer proxies tools and resources from the copied Slack runtime
 - Health responses identify the server as `slack-mcp`
-- The repo includes the vendored Go implementation used by the production image
-- The default tool allowlist remains read-focused until you change `SLACK_MCP_ENABLED_TOOLS`
+- Write tools are still available when enabled, but only read-focused validation is expected for this port

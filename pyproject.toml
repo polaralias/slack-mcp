@@ -1,0 +1,19 @@
+[project]
+name = "slack-mcp"
+version = "0.1.0"
+description = "FastMCP Python Slack server with a parity-preserving proxied backend"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastmcp>=3.1.0"
+]
+
+[project.scripts]
+slack-mcp = "server:main"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["backend_runtime", "server"]
