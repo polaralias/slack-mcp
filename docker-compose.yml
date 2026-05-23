@@ -4,15 +4,13 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
-    volumes:
-      - ./state/slack-cache:/root/.cache/slack-mcp-server
     env_file:
-      - .env
+      - path: .env
+        required: false
     environment:
       MCP_HOST: 0.0.0.0
       MCP_PORT: "${SLACK_MCP_PORT:-3005}"
       MCP_PATH: "${SLACK_MCP_PATH:-/mcp}"
-      SLACK_MCP_BACKEND_MODE: "${SLACK_MCP_BACKEND_MODE:-binary}"
     ports:
       - "${SLACK_MCP_HOST_PORT:-3005}:${SLACK_MCP_PORT:-3005}"
     healthcheck:

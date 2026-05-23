@@ -1,179 +1,281 @@
 # Tool Reference
 
-This reference is generated from `pkg/server/server.go` and covers all 16 Slack tools that the preserved runtime can expose through the FastMCP Python wrapper.
+## Purpose
 
-Availability notes:
-- The repo-level `.env.example` enables an 8-tool read-focused subset by default.
-- Set `SLACK_MCP_ENABLED_TOOLS=all` or an explicitly blank value to expose the full 16-tool surface.
-- Some write-capable tools also respect additional runtime gate vars such as `SLACK_MCP_ADD_MESSAGE_TOOL`, `SLACK_MCP_REACTION_TOOL`, `SLACK_MCP_ATTACHMENT_TOOL`, and `SLACK_MCP_MARK_TOOL`.
+This document defines the tool-surface reference in a way that is useful for:
 
-## Conversations
+- native runtime maintenance
+- harness development
+- historical provenance review
 
-### `conversations_history`
+It is not just a dump of one implementation file.
 
-Get messages from the channel (or DM) by channel_id, the last row/column in the response is used as 'cursor' parameter for pagination if not empty
+## Important warning
 
-- Parameters:
-  - `channel_id` | `string` | required | - `channel_id` (string): ID of the channel in format Cxxxxxxxxxx or its name starting with #... or @... aka #general or @username_dm.
-  - `cursor` | `string` | optional | Cursor for pagination. Use the value of the last row and column in the response as next_cursor field returned from the previous request.
-  - `limit` | `string` | optional default `1d` | Limit of messages to fetch in format of maximum ranges of time (e.g. 1d - 1 day, 1w - 1 week, 30d - 30 days, 90d - 90 days which is a default limit for free tier history) or number of messages (e.g. 50). Must be empty when 'cursor' is provided.
-  - `include_activity_messages` | `boolean` | optional | If true, the response will include activity messages such as 'channel_join' or 'channel_leave'. Default is boolean false.
+There was a historical mismatch between:
 
-### `conversations_replies`
+- the legacy checked-in Go subtree tool surface
+- the validated live packaged backend tool surface
+- the current Python-native runtime surface
 
-Get a thread of messages posted to a conversation by channelID and thread_ts, the last row/column in the response is used as 'cursor' parameter for pagination if not empty
+Because of that history, this document separates:
 
-- Parameters:
-  - `channel_id` | `string` | required | ID of the channel in format Cxxxxxxxxxx or its name starting with #... or @... aka #general or @username_dm.
-  - `thread_ts` | `string` | required | Unique identifier of either a thread's parent message or a message in the thread. ts must be the timestamp in format 1234567890.123456 of an existing message with 0 or more replies.
-  - `cursor` | `string` | optional | Cursor for pagination. Use the value of the last row and column in the response as next_cursor field returned from the previous request.
-  - `limit` | `string` | optional default `1d` | Limit of messages to fetch in format of maximum ranges of time (e.g. 1d - 1 day, 30d - 30 days, 90d - 90 days which is a default limit for free tier history) or number of messages (e.g. 50). Must be empty when 'cursor' is provided.
-  - `include_activity_messages` | `boolean` | optional | If true, the response will include activity messages such as 'channel_join' or 'channel_leave'. Default is boolean false.
+1. current Python-native compatibility target
+2. legacy Go-subtree intent
+3. validated live runtime surface
 
-### `conversations_search_messages`
+References:
 
-Search messages in a public channel, private channel, or direct message (DM, or IM) conversation using filters. All filters are optional, if not provided then search_query is required.
+- [runtime-validation-2026-05-16.md](runtime-validation-2026-05-16.md)
+- [refactor-and-repair-plan.md](refactor-and-repair-plan.md)
+- [ARCHITECTURE.md](../ARCHITECTURE.md)
 
-- Parameters:
-  - `search_query` | `string` | optional | Search query to filter messages. Example: 'marketing report' or full URL of Slack message e.g. 'https://slack.com/archives/C1234567890/p1234567890123456', then the tool will return a single message matching given URL, herewith all other parameters will be ignored.
-  - `filter_in_channel` | `string` | optional | Filter messages in a specific public/private channel by its ID or name. Example: 'C1234567890', 'G1234567890', or '#general'. If not provided, all channels will be searched.
-  - `filter_in_im_or_mpim` | `string` | optional | Filter messages in a direct message (DM) or multi-person direct message (MPIM) conversation by its ID or name. Example: 'D1234567890' or '@username_dm'. If not provided, all DMs and MPIMs will be searched.
-  - `filter_users_with` | `string` | optional | Filter messages with a specific user by their ID or display name in threads and DMs. Example: 'U1234567890' or '@username'. If not provided, all threads and DMs will be searched.
-  - `filter_users_from` | `string` | optional | Filter messages from a specific user by their ID or display name. Example: 'U1234567890' or '@username'. If not provided, all users will be searched.
-  - `filter_date_before` | `string` | optional | Filter messages sent before a specific date in format 'YYYY-MM-DD'. Example: '2023-10-01', 'July', 'Yesterday' or 'Today'. If not provided, all dates will be searched.
-  - `filter_date_after` | `string` | optional | Filter messages sent after a specific date in format 'YYYY-MM-DD'. Example: '2023-10-01', 'July', 'Yesterday' or 'Today'. If not provided, all dates will be searched.
-  - `filter_date_on` | `string` | optional | Filter messages sent on a specific date in format 'YYYY-MM-DD'. Example: '2023-10-01', 'July', 'Yesterday' or 'Today'. If not provided, all dates will be searched.
-  - `filter_date_during` | `string` | optional | Filter messages sent during a specific period in format 'YYYY-MM-DD'. Example: 'July', 'Yesterday' or 'Today'. If not provided, all dates will be searched.
-  - `cursor` | `string` | optional default `` | Cursor for pagination. Use the value of the last row and column in the response as next_cursor field returned from the previous request.
-  - `filter_threads_only` | `boolean` | optional | If true, the response will include only messages from threads. Default is boolean false.
-  - `limit` | `number` | optional default `20` | The maximum number of items to return. Must be an integer between 1 and 100.
+## Surface categories
 
-### `conversations_unreads`
+### Current Python-native categories
 
-Get unread messages across all channels. With browser session tokens (xoxc/xoxd), uses a single API call for complete results. With OAuth user tokens (xoxp), scans a subset of channels per type (limited by max_channels) — results may be partial on large workspaces. Results are prioritized: DMs > group DMs > partner channels > internal channels.
+- conversations
+- channels and users
+- reactions and attachments
+- saved items
+- usergroups
 
-- Parameters:
-  - `channel_types` | `string` | optional default `all` | Filter by channel type: 'all' (default), 'dm' (direct messages), 'group_dm' (group DMs), 'partner' (ext-* channels), 'internal' (other channels).
-  - `include_messages` | `boolean` | optional | If true (default), returns the actual unread messages. If false, returns only a summary of channels with unreads.
-  - `mentions_only` | `boolean` | optional | If true, only returns channels where you have @mentions. Default is false.
-  - `include_muted` | `boolean` | optional | If true, includes muted channels in results. Default is false (muted channels are excluded, matching Slack app behavior).
-  - `max_channels` | `number` | optional default `50` | Maximum number of channels to fetch unreads from. Default is 50.
-  - `max_messages_per_channel` | `number` | optional default `10` | Maximum messages to fetch per channel. Default is 10.
+### Legacy Go-subtree categories
 
-### `conversations_mark`
+- conversations
+- channels and users
+- reactions and attachments
+- usergroups
 
-Mark a channel or DM as read. If no timestamp is provided, marks all messages as read.
+### Historical validation categories
 
-- Parameters:
-  - `channel_id` | `string` | required | ID of the channel in format Cxxxxxxxxxx or its name starting with #... or @... (e.g., #general, @username).
-  - `ts` | `string` | optional | Timestamp of the message to mark as read up to. If not provided, marks all messages as read.
+- conversations
+- channels and users
+- reactions and attachments
+- saved items
+- usergroups
 
-### `conversations_add_message`
+## Current Python-native compatibility tool set
 
-Add a message to a public channel, private channel, or direct message (DM, or IM) conversation by channel_id and thread_ts.
+This is the current repository runtime intent after the Python-native transition work.
 
-- Parameters:
-  - `channel_id` | `string` | required | ID of the channel in format Cxxxxxxxxxx or its name starting with #... or @... aka #general or @username_dm.
-  - `thread_ts` | `string` | optional | Unique identifier of either a thread's parent message or a message in the thread_ts must be the timestamp in format 1234567890.123456 of an existing message with 0 or more replies. Optional, if not provided the message will be added to the channel itself, otherwise it will be added to the thread.
-  - `text` | `string` | optional | Message text in specified content_type format. Example: 'Hello, world!' for text/plain or '# Hello, world!' for text/markdown.
-  - `content_type` | `string` | optional default `text/markdown` | Content type of the message. Default is 'text/markdown'. Allowed values: 'text/markdown', 'text/plain'.
+### Conversations
 
-## Reactions And Attachments
+- `conversations_add_message`
+- `conversations_history`
+- `conversations_join`
+- `conversations_leave`
+- `conversations_mark`
+- `conversations_replies`
+- `conversations_search_messages`
+- `conversations_unreads`
 
-### `reactions_add`
+### Channels and users
 
-Add an emoji reaction to a message in a public channel, private channel, or direct message (DM, or IM) conversation.
+- `channels_list`
+- `channels_me`
+- `users_search`
 
-- Parameters:
-  - `channel_id` | `string` | required | ID of the channel in format Cxxxxxxxxxx or its name starting with #... or @... aka #general or @username_dm.
-  - `timestamp` | `string` | required | Timestamp of the message to add reaction to, in format 1234567890.123456.
-  - `emoji` | `string` | required | The name of the emoji to add as a reaction (without colons). Example: 'thumbsup', 'heart', 'rocket'.
+### Reactions and attachments
 
-### `reactions_remove`
+- `attachment_get_data`
+- `reactions_add`
+- `reactions_remove`
 
-Remove an emoji reaction from a message in a public channel, private channel, or direct message (DM, or IM) conversation.
+### Saved items
 
-- Parameters:
-  - `channel_id` | `string` | required | ID of the channel in format Cxxxxxxxxxx or its name starting with #... or @... aka #general or @username_dm.
-  - `timestamp` | `string` | required | Timestamp of the message to remove reaction from, in format 1234567890.123456.
-  - `emoji` | `string` | required | The name of the emoji to remove as a reaction (without colons). Example: 'thumbsup', 'heart', 'rocket'.
+- `saved_clear_completed`
+- `saved_list`
+- `saved_update`
 
-### `attachment_get_data`
+### Usergroups
 
-Download an attachment's content by file ID. Returns file metadata and content (text files as-is, binary files as base64). Maximum file size is 5MB.
+- `usergroups_create`
+- `usergroups_list`
+- `usergroups_me`
+- `usergroups_update`
+- `usergroups_users_update`
 
-- Parameters:
-  - `file_id` | `string` | required | The ID of the attachment to download, in format Fxxxxxxxxxx. Attachment IDs can be found in message metadata when HasMedia is true or AttachmentCount > 0.
+Current Python-native count:
 
-## Channels And Users
+- 22 tools
 
-### `channels_list`
+## Legacy Go-subtree intent tool set
 
-Get list of channels
+This is the older local Go-subtree intent described by the inherited checked-in Go code and prior docs.
 
-- Parameters:
-  - `channel_types` | `string` | required | Comma-separated channel types. Allowed values: 'mpim', 'im', 'public_channel', 'private_channel'. Example: 'public_channel,private_channel,im'
-  - `sort` | `string` | optional | Type of sorting. Allowed values: 'popularity' - sort by number of members/participants in each channel.
-  - `cursor` | `string` | optional | Cursor for pagination. Use the value of the last row and column in the response as next_cursor field returned from the previous request.
-  - `limit` | `number` | optional default `100` | The maximum number of items to return. Must be an integer between 1 and 1000 (maximum 999).
+### Conversations
 
-### `users_search`
+- `conversations_history`
+- `conversations_replies`
+- `conversations_add_message`
+- `conversations_search_messages`
+- `conversations_unreads`
+- `conversations_mark`
 
-Search for users by name, email, or display name. Returns user details and DM channel ID if available.
+### Reactions and attachments
 
-- Parameters:
-  - `query` | `string` | required | Search query - matches against real name, display name, username, or email.
-  - `limit` | `number` | optional default `10` | Maximum number of results to return (1-100). Default is 10.
+- `reactions_add`
+- `reactions_remove`
+- `attachment_get_data`
 
-## User Groups
+### Channels and users
 
-### `usergroups_list`
+- `channels_list`
+- `users_search`
 
-List all user groups (subteams) in the Slack workspace. User groups are mention groups like @engineering or @design that notify all members. Use this to discover available groups, check group membership counts, or find a group's ID before joining/updating it. Returns CSV with columns: id, name, handle, description, user_count, is_external.
+### Usergroups
 
-- Parameters:
-  - `include_users` | `boolean` | optional | Include list of user IDs in each group. Default is false.
-  - `include_count` | `boolean` | optional | Include user count for each group. Default is true.
-  - `include_disabled` | `boolean` | optional | Include disabled/archived groups. Default is false.
+- `usergroups_list`
+- `usergroups_me`
+- `usergroups_create`
+- `usergroups_update`
+- `usergroups_users_update`
 
-### `usergroups_me`
+Canonical repo-intent count:
 
-Manage your own user group membership. Use action='list' to see which groups you belong to. Use action='join' with a usergroup_id to add yourself to a group (e.g., to receive @mentions). Use action='leave' with a usergroup_id to remove yourself. This is the easiest way to join/leave groups without needing to know the full member list.
+- 16 tools
 
-- Parameters:
-  - `action` | `string` | required | Action to perform: 'list' returns CSV of groups you're a member of, 'join' adds you to a group, 'leave' removes you from a group.
-  - `usergroup_id` | `string` | optional | ID of the user group (starts with 'S', e.g., 'S0123456789'). Required for 'join' and 'leave' actions. Get IDs from usergroups_list.
+## Historical validation tool set
 
-### `usergroups_create`
+This is the tool surface observed from the packaged backend path on 2026-05-16, which is still useful as provenance for how the 22-tool contract was established.
 
-Create a new user group (mention group) in the Slack workspace. After creation, use usergroups_users_update to add members, or users can join themselves with usergroups_me. The handle becomes the @mention (e.g., handle='engineering' creates @engineering).
+### Conversations
 
-- Parameters:
-  - `name` | `string` | required | Display name of the user group (e.g., 'Engineering Team', 'Design Squad').
-  - `handle` | `string` | optional | The @mention handle without the @ symbol (e.g., 'engineering' for @engineering). Keep it short and lowercase. If omitted, Slack auto-generates one from the name.
-  - `description` | `string` | optional | Purpose or description shown in group details (e.g., 'Backend and frontend engineers').
-  - `channels` | `string` | optional | Comma-separated channel IDs where this group is commonly mentioned. Members get suggestions to join these channels.
+- `conversations_add_message`
+- `conversations_history`
+- `conversations_join`
+- `conversations_leave`
+- `conversations_mark`
+- `conversations_replies`
+- `conversations_search_messages`
+- `conversations_unreads`
 
-### `usergroups_update`
+### Channels and users
 
-Update a user group's metadata: name, handle (@mention), description, or default channels. Does NOT change members - use usergroups_users_update for that. At least one field must be provided.
+- `channels_list`
+- `channels_me`
+- `users_search`
 
-- Parameters:
-  - `usergroup_id` | `string` | required | ID of the user group to update (starts with 'S', e.g., 'S0123456789'). Get IDs from usergroups_list.
-  - `name` | `string` | optional | New display name for the group.
-  - `handle` | `string` | optional | New @mention handle (without @). Changing this changes how users mention the group.
-  - `description` | `string` | optional | New description for the group.
-  - `channels` | `string` | optional | New default channel IDs (comma-separated). Replaces existing default channels.
+### Reactions and attachments
 
-### `usergroups_users_update`
+- `attachment_get_data`
+- `reactions_add`
+- `reactions_remove`
 
-Replace all members of a user group with a new list. WARNING: This completely replaces the member list - any user not in the 'users' parameter will be removed. To add/remove just yourself, use usergroups_me instead. To add a single user without removing others, first get current members from usergroups_list with include_users=true, then call this with the combined list.
+### Saved items
 
-- Parameters:
-  - `usergroup_id` | `string` | required | ID of the user group (starts with 'S', e.g., 'S0123456789'). Get IDs from usergroups_list.
-  - `users` | `string` | required | Comma-separated user IDs that will become the COMPLETE member list (e.g., 'U0123456789,U9876543210'). All current members not in this list will be removed.
+- `saved_list`
+- `saved_update`
+- `saved_clear_completed`
+
+### Usergroups
+
+- `usergroups_create`
+- `usergroups_list`
+- `usergroups_me`
+- `usergroups_update`
+- `usergroups_users_update`
+
+Validated live-runtime count:
+
+- 22 tools
+
+## Mismatch summary
+
+Tools present in the validated live runtime and current Python-native runtime but not in the legacy Go-subtree docs:
+
+- `channels_me`
+- `conversations_join`
+- `conversations_leave`
+- `saved_list`
+- `saved_update`
+- `saved_clear_completed`
+
+This mismatch is resolved in shipped product code but remains useful as historical provenance for why the contract expanded.
+
+## Validation status by tool
+
+### Verified success
+
+- `channels_list`
+- `channels_me`
+- `users_search`
+- `conversations_history`
+- `conversations_add_message`
+- `conversations_replies`
+- `conversations_search_messages`
+- `conversations_unreads`
+- `conversations_mark`
+- `reactions_add`
+- `reactions_remove`
+- `conversations_join`
+- `conversations_leave`
+- `usergroups_create`
+- `usergroups_list`
+- `usergroups_me` with `action=list`
+- `usergroups_me` with `action=join`
+- `usergroups_update`
+- `usergroups_users_update`
+
+### Now success-proven in native harness
+
+- `attachment_get_data`
+- `saved_list`
+- `saved_update`
+- `saved_clear_completed`
+- `usergroups_me` with `action=leave`
+  Proven with a two-member fixture because Slack rejects attempts to update a group to an empty member list.
+
+## Harness contract recommendation
+
+Future black-box harness work should treat the tool surface as a contract with four fields per tool:
+
+- `exposed`
+- `schema`
+- `success_path_status`
+- `known_failure_modes`
+
+The end-state canonical contract should also capture:
+
+- fixture expectations where a success path depends on pre-created Slack state
+
+That is more useful than treating tool presence alone as verification.
+
+Important distinction:
+
+- runtime validation records the observed behavior of dated runtimes
+- the Python contract harness should assert the intended final product behavior
+- known current defects should be documented as current-state findings, not preserved as the default end-state contract
+
+Current harness decision:
+
+- the first Python contract harness should cover the full 22-tool validated live-runtime surface
+- the harness should target the intended fixed end state for that 22-tool surface, not freeze known transitional defects by default
+
+Current contract-definition decision:
+
+- each tool needs a canonical end-state contract covering exposure, arguments/schema, success-path behavior and output shape, intentional failure modes, and fixture expectations where needed
+
+## Current compatibility target
+
+Current decision:
+
+- the repository's current target surface is the 22-tool validated live-runtime surface
+
+This is both:
+
+- the current harness target
+- the default compatibility target for the supported Python-only implementation
+
+Implication:
+
+- repair work and harness engineering should target the 22-tool validated live-runtime surface first
+- later product changes should preserve that surface unless an explicit product decision approves a contract change
 
 ## Resources
 
-- `slack://<workspace>/channels` returns a CSV channel directory resource.
-- `slack://<workspace>/users` returns a CSV user directory resource.
+Validated live runtime resources:
+
+- `slack://<workspace>/channels`
+- `slack://<workspace>/users`

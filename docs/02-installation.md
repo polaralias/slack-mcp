@@ -1,20 +1,58 @@
-### 2. Installation
+# 2. Installation
 
-> **Maintainer note**
->
-> I’m currently seeking a new **full-time or contract engineering role** after losing my primary job.  
-> This directly impacts my ability to maintain this project long-term.
->
-> If you know a **Hiring Manager, Engineering Manager, or startup team** that might be a good fit, I’d be grateful for an introduction.
->
-> 👉 See the full context in **[this issue](https://github.com/korotovsky/slack-mcp-server/issues/150)**  
-> 📩 Contact: `dmitry@korotovsky.io`
+## Purpose
 
-Choose one of these installation methods:
+This document defines the supported installation path for the repository.
 
-- [DXT Extension](03-configuration-and-usage.md#Using-DXT)
-- [Cursor Installer](03-configuration-and-usage.md#Using-Cursor-Installer)
-- [npx](03-configuration-and-usage.md#Using-npx)
-- [Docker](03-configuration-and-usage.md#Using-Docker)
+## Supported setup
 
-See next: [Configuration and Usage](03-configuration-and-usage.md)
+For contributors and operators, the supported setup is:
+
+1. local Python environment
+2. local FastMCP server from this repository
+3. direct native Slack session auth
+
+## Requirements
+
+- Python 3.11+
+- `uv`
+- Slack browser-session credentials:
+  - `SLACK_MCP_XOXC_TOKEN`
+  - `SLACK_MCP_XOXD_TOKEN`
+
+Optional:
+
+- Docker, if you want the containerized path
+
+## Install local Python environment
+
+From the repository root:
+
+```bash
+uv sync --no-dev
+```
+
+## Local startup
+
+```bash
+python scripts/run_server.py serve
+python scripts/run_server.py doctor
+python scripts/run_server.py url
+```
+
+## Docker startup
+
+```bash
+docker compose up -d --build
+docker compose ps
+docker compose logs -f
+```
+
+## Notes
+
+- Go source, Go binaries, and npm package launchers are no longer part of supported installation paths.
+- Historical validation docs may mention package-backed runtime paths; treat those as dated evidence only.
+
+## Next
+
+- [03-configuration-and-usage.md](03-configuration-and-usage.md)
