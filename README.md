@@ -16,11 +16,12 @@ Standalone FastMCP Python server for Slack with direct native Slack session supp
 ## Read this first
 
 1. [AGENTS.md](AGENTS.md)
-2. [ARCHITECTURE.md](ARCHITECTURE.md)
-3. [docs/DESIGN.md](docs/DESIGN.md)
-4. [docs/PLANS.md](docs/PLANS.md)
-5. [docs/SECURITY.md](docs/SECURITY.md)
-6. [docs/RELIABILITY.md](docs/RELIABILITY.md)
+2. [GLOSSARY.md](GLOSSARY.md)
+3. [ARCHITECTURE.md](ARCHITECTURE.md)
+4. [docs/DESIGN.md](docs/DESIGN.md)
+5. [docs/PLANS.md](docs/PLANS.md)
+6. [docs/SECURITY.md](docs/SECURITY.md)
+7. [docs/RELIABILITY.md](docs/RELIABILITY.md)
 
 High-signal references:
 

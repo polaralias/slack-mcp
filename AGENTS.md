@@ -19,6 +19,7 @@ Agent work should optimize for:
 
 Canonical entry docs:
 
+- [GLOSSARY.md](GLOSSARY.md)
 - [ARCHITECTURE.md](ARCHITECTURE.md)
 - [docs/DESIGN.md](docs/DESIGN.md)
 - [docs/PLANS.md](docs/PLANS.md)
