@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - master
-  pull_request_target:
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -12,18 +12,35 @@ permissions:
 jobs:
   unit-tests:
     runs-on: ubuntu-latest
+    env:
+      SLACK_MCP_XOXC_TOKEN: ${{ secrets.SLACK_MCP_XOXC_TOKEN }}
+      SLACK_MCP_XOXD_TOKEN: ${{ secrets.SLACK_MCP_XOXD_TOKEN }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Set up Go
-        uses: actions/setup-go@v6
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          go-version-file: "go.mod"
+          python-version: "3.12"
 
-      - name: Download dependencies
-        run: make deps
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
 
-      - name: Run unit tests
-        run: make test
+      - name: Sync dependencies
+        run: uv sync --no-dev
+
+      - name: Compile Python sources
+        run: uv run python -m compileall tests server.py slack_native.py scripts/run_server.py backend_runtime.py
+
+      - name: Run offline verification
+        run: uv run python -m unittest tests.test_runtime_config tests.test_publish_surface -v
+
+      - name: Run live harness tests
+        if: ${{ env.SLACK_MCP_XOXC_TOKEN != '' && env.SLACK_MCP_XOXD_TOKEN != '' }}
+        run: uv run python -m unittest tests.test_harness_bootstrap tests.test_read_paths tests.test_fixture_sensitive_paths -v
+
+      - name: Skip live harness tests when Slack credentials are not configured
+        if: ${{ env.SLACK_MCP_XOXC_TOKEN == '' || env.SLACK_MCP_XOXD_TOKEN == '' }}
+        run: echo "Skipping live harness tests because Slack browser-session credentials are not configured."

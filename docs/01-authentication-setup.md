@@ -1,116 +1,105 @@
-### 1. Authentication Setup
+# 1. Authentication Setup
 
-> **Maintainer note**
->
-> I’m currently seeking a new **full-time or contract engineering role** after losing my primary job.  
-> This directly impacts my ability to maintain this project long-term.
->
-> If you know a **Hiring Manager, Engineering Manager, or startup team** that might be a good fit, I’d be grateful for an introduction.
->
-> 👉 See the full context in **[this issue](https://github.com/korotovsky/slack-mcp-server/issues/150)**  
-> 📩 Contact: `dmitry@korotovsky.io`
+## Purpose
 
-Open up your Slack in your browser and login.
+This document describes the current canonical authentication model for this repository.
 
-> **Note**: You only need one of the following: an `xoxp-*` User OAuth token, an `xoxb-*` Bot token, or both `xoxc-*` and `xoxd-*` session tokens. User/Bot tokens are more secure and do not require a browser session. If multiple are provided, priority is `xoxp` > `xoxb` > `xoxc/xoxd`.
+It replaces the earlier mixed-token setup guidance as the main entrypoint for contributors working in this repo.
 
-#### Option 1: Using `SLACK_MCP_XOXC_TOKEN`/`SLACK_MCP_XOXD_TOKEN` (Browser session)
+References:
 
-##### Lookup `SLACK_MCP_XOXC_TOKEN`
+- [product-specs/auth-model.md](product-specs/auth-model.md)
+- [design-docs/auth-principles.md](design-docs/auth-principles.md)
+- [SECURITY.md](SECURITY.md)
 
-- Open your browser's Developer Console.
-- In Firefox, under `Tools -> Browser Tools -> Web Developer tools` in the menu bar
-- In Chrome, click the "three dots" button to the right of the URL Bar, then select
-  `More Tools -> Developer Tools`
-- Switch to the console tab.
-- Type "allow pasting" and press ENTER.
-- Paste the following snippet and press ENTER to execute:
-  `JSON.parse(localStorage.localConfig_v2).teams[document.location.pathname.match(/^\/client\/([A-Z0-9]+)/)[1]].token`
+## Current canonical model
 
-Token value is printed right after the executed command (it starts with
-`xoxc-`), save it somewhere for now.
+For this repository, the primary supported Slack auth model is:
 
-##### Lookup `SLACK_MCP_XOXD_TOKEN`
+- `SLACK_MCP_XOXC_TOKEN`
+- `SLACK_MCP_XOXD_TOKEN`
 
-- Switch to "Application" tab and select "Cookies" in the left navigation pane.
-- Find the cookie with the name `d`.  That's right, just the letter `d`.
-- Double-click the Value of this cookie.
-- Press Ctrl+C or Cmd+C to copy it's value to clipboard.
-- Save it for later.
+This matches:
 
-#### Option 2: Using `SLACK_MCP_XOXP_TOKEN` (User OAuth)
+- the current Python wrapper constraints
+- the validated sandbox runtime work in this repo
+- the current supported product runtime
 
-Instead of using browser-based tokens (`xoxc`/`xoxd`), you can use a User OAuth token:
+## What this means
 
-1. Go to [api.slack.com/apps](https://api.slack.com/apps) and create a new app
-2. Under "OAuth & Permissions", add the following scopes:
-    - `channels:history` - View messages in public channels
-    - `channels:read` - View basic information about public channels
-    - `groups:history` - View messages in private channels
-    - `groups:read` - View basic information about private channels
-    - `im:history` - View messages in direct messages.
-    - `im:read` - View basic information about direct messages
-    - `im:write` - Start direct messages with people on a user’s behalf (new since `v1.1.18`)
-    - `mpim:history` - View messages in group direct messages
-    - `mpim:read` - View basic information about group direct messages
-    - `mpim:write` - Start group direct messages with people on a user’s behalf (new since `v1.1.18`)
-    - `users:read` - View people in a workspace.
-    - `chat:write` - Send messages on a user's behalf. (new since `v1.1.18`)
-    - `search:read` - Search a workspace's content. (new since `v1.1.18`)
-    - `usergroups:read` - View user groups in a workspace.
-    - `usergroups:write` - Create and manage user groups.
+If you are developing or verifying this repository locally, assume:
 
-3. Install the app to your workspace
-4. Copy the "User OAuth Token" (starts with `xoxp-`)
+- browser-session style Slack access is the supported setup path
+- bearer auth between MCP client and server is configured separately
+- legacy token modes may still appear in inherited docs or code, but they are not the preferred setup path here
 
-##### App manifest (preconfigured scopes)
-To create the app from a manifest with permissions preconfigured, use the following code snippet:
+## Required environment variables
 
-```json
-{
-    "display_information": {
-        "name": "Slack MCP"
-    },
-    "oauth_config": {
-        "scopes": {
-            "user": [
-                "channels:history",
-                "channels:read",
-                "groups:history",
-                "groups:read",
-                "im:history",
-                "im:read",
-                "im:write",
-                "mpim:history",
-                "mpim:read",
-                "mpim:write",
-                "users:read",
-                "chat:write",
-                "search:read",
-                "usergroups:read",
-                "usergroups:write"
-            ]
-        }
-    },
-    "settings": {
-        "org_deploy_enabled": false,
-        "socket_mode_enabled": false,
-        "token_rotation_enabled": false
-    }
-}
+Slack access:
+
+- `SLACK_MCP_XOXC_TOKEN`
+- `SLACK_MCP_XOXD_TOKEN`
+
+Recommended MCP client auth:
+
+- `SLACK_MCP_API_KEY`
+
+## How to obtain the Slack values
+
+### `SLACK_MCP_XOXC_TOKEN`
+
+1. Open Slack in your browser and log in.
+2. Open browser developer tools.
+3. Open the console.
+4. Run:
+
+```js
+JSON.parse(localStorage.localConfig_v2).teams[document.location.pathname.match(/^\/client\/([A-Z0-9]+)/)[1]].token
 ```
 
-#### Option 3: Using `SLACK_MCP_XOXB_TOKEN` (Bot Token)
+5. Copy the browser token value.
 
-You can also use a Bot token instead of a User token:
+### `SLACK_MCP_XOXD_TOKEN`
 
-1. Go to [api.slack.com/apps](https://api.slack.com/apps) and create a new app
-2. Under "OAuth & Permissions", add Bot Token Scopes (same as User scopes above, except `search:read`)
-3. Install the app to your workspace
-4. Copy the "Bot User OAuth Token" (starts with `xoxb-`)
-5. **Important**: Bot must be invited to channels for access
+1. In developer tools, open browser storage/cookies.
+2. Find the Slack cookie named `d`.
+3. Copy its value.
+4. Store it as `SLACK_MCP_XOXD_TOKEN`.
 
-> **Note**: Bot tokens cannot use `search.messages` API, so `conversations_search_messages` tool will not be available.
+## MCP client auth
 
+The server can require a bearer token from MCP clients.
 
-See next: [Installation](02-installation.md)
+Recommended:
+
+- set `SLACK_MCP_API_KEY`
+- connect clients with `Authorization: Bearer <your-api-key>`
+
+## Example local `.env`
+
+```env
+SLACK_MCP_XOXC_TOKEN=<paste-slack-browser-token>
+SLACK_MCP_XOXD_TOKEN=<paste-slack-cookie-d-value>
+SLACK_MCP_API_KEY=change-me
+```
+
+## What is not the main path here
+
+Older inherited materials describe:
+
+- `SLACK_MCP_XOXP_TOKEN`
+- `SLACK_MCP_XOXB_TOKEN`
+
+Those paths may still appear in inherited historical docs, but they are not the canonical auth story for this repository and should not be the main contributor path.
+
+## Validation status
+
+This auth model was used successfully during authenticated runtime verification in the sandbox workspace.
+
+Reference:
+
+- [runtime-validation-2026-05-16.md](runtime-validation-2026-05-16.md)
+
+## Next
+
+- [02-installation.md](02-installation.md)

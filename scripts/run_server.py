@@ -15,7 +15,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from backend_runtime import DEFAULT_READ_ONLY_TOOLS, configured_enabled_tools, resolve_backend_command
+from backend_runtime import DEFAULT_ENABLED_TOOLS, configured_enabled_tools, validate_auth_environment
 
 RUNTIME_PLACEHOLDER_RE = re.compile(r"^\$\{[A-Za-z_][A-Za-z0-9_]*\}$")
 DEFAULT_HOST = "127.0.0.1"
@@ -204,10 +204,66 @@ def _api_key_auth_configured() -> bool:
 def _configured_enabled_tools_label() -> str:
     configured = configured_enabled_tools()
     if configured is None:
-        return "default-read-only"
+        return "default-all"
     if configured == "all":
         return "all"
     return ",".join(configured)
+
+
+def _python_native_tools_label() -> str:
+    configured = configured_enabled_tools()
+    if configured == "all":
+        enabled = None
+    elif isinstance(configured, list):
+        enabled = set(configured)
+    else:
+        enabled = set(DEFAULT_ENABLED_TOOLS)
+
+    def add(tool_names: list[str], bucket: list[str]) -> None:
+        for tool_name in tool_names:
+            if enabled is None or tool_name in enabled:
+                bucket.append(tool_name)
+
+    native_tools: list[str] = []
+    add(["channels_list", "channels_me"], native_tools)
+    add(
+        [
+            "conversations_history",
+            "conversations_replies",
+            "conversations_search_messages",
+            "conversations_unreads",
+        ],
+        native_tools,
+    )
+    add(
+        [
+            "conversations_add_message",
+            "conversations_join",
+            "conversations_leave",
+            "conversations_mark",
+            "reactions_add",
+            "reactions_remove",
+        ],
+        native_tools,
+    )
+    add(["attachment_get_data"], native_tools)
+    add(["saved_list", "saved_update", "saved_clear_completed"], native_tools)
+    add(
+        [
+            "usergroups_create",
+            "usergroups_list",
+            "usergroups_me",
+            "usergroups_update",
+            "usergroups_users_update",
+        ],
+        native_tools,
+    )
+    add(["users_search"], native_tools)
+    return ",".join(native_tools)
+
+
+def _python_native_resources_label() -> str:
+    return "channels,users"
 
 
 def cmd_serve(config: RuntimeConfig, args: argparse.Namespace) -> int:
@@ -229,19 +285,21 @@ def cmd_doctor(config: RuntimeConfig, _args: argparse.Namespace) -> int:
     print(f"mcp_url={config.mcp_url}")
     print(f"health_url={config.health_url}")
     print(f"transport={config.transport}")
-    print(f"default_enabled_tools={','.join(DEFAULT_READ_ONLY_TOOLS)}")
+    print(f"default_enabled_tools={','.join(DEFAULT_ENABLED_TOOLS)}")
     print(f"configured_enabled_tools={_configured_enabled_tools_label()}")
+    print(f"python_native_tools={_python_native_tools_label()}")
+    print(f"python_native_resources={_python_native_resources_label()}")
     print(f"api_key_auth_configured={'yes' if _api_key_auth_configured() else 'no'}")
     try:
-        backend = resolve_backend_command()
+        validate_auth_environment()
     except SystemExit as exc:
         print(f"backend_error={exc}")
         print(f"health={'online' if is_server_healthy(config) else 'offline'}")
         return 1
 
-    print(f"backend_mode={backend.mode}")
-    print(f"backend_command={backend.command}")
-    print(f"backend_args={' '.join(backend.args)}")
+    print("backend_mode=native")
+    print("backend_command=")
+    print("backend_args=")
     print(f"health={'online' if is_server_healthy(config) else 'offline'}")
     return 0
 
