@@ -58,3 +58,14 @@ High-signal current-state references:
 - New behavior should be specified in product- or design-level docs before implementation when the behavior is user-visible.
 - New tests should prefer Python black-box MCP boundary assertions over backend-internal assumptions.
 - Do not reintroduce delegated backend patterns or secondary runtime paths without an explicit product decision and matching contract updates.
+
+## Shared Git Workflow
+
+- work from a short-lived branch created from `main`
+- do not commit directly to `main`
+- use branch names prefixed with `feat/`, `fix/`, `docs/`, `chore/`, `refactor/`, or `test/`
+- keep one logical change per branch and pull request
+- open a pull request before merging to `main`, including for solo work
+- prefer squash merge unless multiple commits carry durable review value
+- delete the merged or closed feature branch after the work is finished; never delete `main`
+- use tags in `vX.Y.Z` format for releases and do not move published tags
