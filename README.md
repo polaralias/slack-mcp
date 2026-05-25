@@ -1,69 +1,34 @@
-# slack-mcp
+# Slack MCP
 
-Standalone FastMCP Python server for Slack with direct native Slack session support.
+Slack MCP is a FastMCP Python server for Slack, built around direct native Slack session support.
 
-## Current status
+## What It Does
 
-- Default MCP endpoint: `http://localhost:3005/mcp`
-- Default health endpoint: `http://localhost:3005/health`
-- Native Python runtime is the only supported runtime
-- Validated contract surface: 22 tools plus 2 resources
-- Supported Slack auth parameters:
-  - `SLACK_MCP_XOXC_TOKEN`
-  - `SLACK_MCP_XOXD_TOKEN`
-- Supports `SLACK_MCP_API_KEY`, `MCP_API_KEY`, or `MCP_API_KEYS`
+The server exposes a validated Slack MCP surface for reading and acting against Slack workspaces through a native Python runtime. It is designed for personal or controlled workspace use where the current browser-session auth flow is acceptable.
 
-## Read this first
+## Core Capabilities
 
-1. [AGENTS.md](AGENTS.md)
-2. [GLOSSARY.md](GLOSSARY.md)
-3. [ARCHITECTURE.md](ARCHITECTURE.md)
-4. [docs/DESIGN.md](docs/DESIGN.md)
-5. [docs/PLANS.md](docs/PLANS.md)
-6. [docs/SECURITY.md](docs/SECURITY.md)
-7. [docs/RELIABILITY.md](docs/RELIABILITY.md)
+- validated Slack MCP tool surface
+- direct Slack session auth with current supported token types
+- configurable tool exposure allowlist
+- MCP bearer-key protection for the server itself
+- local and container runtime paths
 
-High-signal references:
+## Endpoints
 
-- [docs/product-specs/rewrite-compatibility-contract.md](docs/product-specs/rewrite-compatibility-contract.md)
-- [docs/product-specs/tool-surface.md](docs/product-specs/tool-surface.md)
-- [docs/exec-plans/active/contract-harness.md](docs/exec-plans/active/contract-harness.md)
-- [docs/runtime-validation-2026-05-23-native-bootstrap.md](docs/runtime-validation-2026-05-23-native-bootstrap.md)
+- MCP: `http://localhost:3005/mcp`
+- Health: `http://localhost:3005/health`
 
-## Configuration
-
-Required:
+## Required Authentication
 
 - `SLACK_MCP_XOXC_TOKEN`
 - `SLACK_MCP_XOXD_TOKEN`
 
-Recommended:
+Optional but recommended:
 
 - `SLACK_MCP_API_KEY`
 
-Common optional settings:
-
-- `SLACK_MCP_ENABLED_TOOLS`
-- `SLACK_MCP_HOST`
-- `SLACK_MCP_PORT`
-- `SLACK_MCP_PATH`
-- `MCP_HEALTH_PATH`
-- `API_KEY_MODE`
-- `SLACK_MCP_GOVSLACK`
-- `SLACK_MCP_USER_AGENT`
-- `SLACK_MCP_WORKSPACE`
-
-Tool selection note:
-
-- If `SLACK_MCP_ENABLED_TOOLS` is not set, the full validated 22-tool surface is exposed.
-- You can still restrict exposure with a comma-separated allowlist.
-
-Authentication note:
-
-- This runtime intentionally supports the current browser-session auth flow only.
-- Leave `SLACK_MCP_XOXP_TOKEN` and `SLACK_MCP_XOXB_TOKEN` unset.
-
-## Run locally
+## Quick Start
 
 ```bash
 uv sync --no-dev
@@ -72,7 +37,7 @@ python scripts/run_server.py doctor
 python scripts/run_server.py url
 ```
 
-## Run with Docker Compose
+## Docker
 
 ```bash
 docker compose up -d --build
@@ -80,13 +45,17 @@ docker compose ps
 docker compose logs -f
 ```
 
-## MCP client connection
+## MCP Client Connection
 
 - URL: `http://<host>:<port>/mcp`
 - Header: `Authorization: Bearer <your-api-key>`
 
-## Repository notes
+## Documentation
 
-- The FastMCP Python layer is the user-facing server and the Slack implementation.
-- The Go backend and npm package launcher are no longer part of supported product code.
-- Historical runtime-validation docs remain in the repo as evidence, not as active implementation guidance.
+Start with:
+
+- [ARCHITECTURE.md](ARCHITECTURE.md)
+- [docs/product-specs/tool-surface.md](docs/product-specs/tool-surface.md)
+- [docs/SECURITY.md](docs/SECURITY.md)
+
+For repository workflow and agent-focused context, read [AGENTS.md](AGENTS.md).
