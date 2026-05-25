@@ -1,6 +1,6 @@
 [project]
 name = "slack-mcp"
-version = "0.0.1"
+version = "1.0.0"
 description = "FastMCP Python Slack server with direct native Slack session support"
 readme = "README.md"
 requires-python = ">=3.11"
