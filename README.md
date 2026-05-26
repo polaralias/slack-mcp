@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="Slack%20MCP.png" alt="Slack MCP banner" width="960" />
+</p>
+
 # Slack MCP
 
 Slack MCP is a FastMCP Python server for Slack, built around direct native Slack session support.
