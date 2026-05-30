@@ -59,7 +59,7 @@ jobs:
           fi
 
       - name: Upload version metadata
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: slack-mcp-version-metadata
           path: version-metadata.json
