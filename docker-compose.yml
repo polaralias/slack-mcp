@@ -11,6 +11,7 @@ services:
       MCP_HOST: 0.0.0.0
       MCP_PORT: "${SLACK_MCP_PORT:-3005}"
       MCP_PATH: "${SLACK_MCP_PATH:-/mcp}"
+      API_KEY_MODE: "${API_KEY_MODE:-required}"
     ports:
       - "${SLACK_MCP_HOST_PORT:-3005}:${SLACK_MCP_PORT:-3005}"
     healthcheck:

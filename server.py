@@ -40,6 +40,7 @@ from slack_native import (
 
 RUNTIME_PLACEHOLDER_RE = re.compile(r"^\$\{[A-Za-z_][A-Za-z0-9_]*\}$")
 REPO_ROOT = Path(__file__).resolve().parent
+VALID_API_KEY_MODES = {"required", "disabled"}
 
 
 def _runtime_env(*names: str, default: str = "") -> str:
@@ -56,6 +57,17 @@ def _runtime_env(*names: str, default: str = "") -> str:
 
 def _split_csv(value: str) -> list[str]:
     return [token.strip() for token in value.split(",") if token.strip()]
+
+
+def _auth_mode() -> str:
+    mode = _runtime_env("API_KEY_MODE", default="required").strip().lower() or "required"
+    if mode not in VALID_API_KEY_MODES:
+        raise RuntimeError("Unsupported API_KEY_MODE value. Use 'required' or 'disabled'.")
+    return mode
+
+
+def _auth_is_disabled() -> bool:
+    return _auth_mode() == "disabled"
 
 
 def _env_flag(name: str) -> bool:
@@ -112,8 +124,7 @@ def _native_resource_overrides() -> list[str]:
 
 
 def _load_api_keys() -> list[str]:
-    api_key_mode = _runtime_env("API_KEY_MODE", default="").strip().lower()
-    if api_key_mode == "disabled":
+    if _auth_is_disabled():
         return []
 
     keys: list[str] = []
@@ -126,6 +137,21 @@ def _load_api_keys() -> list[str]:
         keys.extend(_split_csv(multi))
 
     return list(dict.fromkeys(keys))
+
+
+def _require_api_keys_configured(api_keys: list[str]) -> None:
+    if api_keys or _auth_is_disabled():
+        return
+    raise RuntimeError(
+        "MCP auth defaults to required. Configure SLACK_MCP_API_KEY, MCP_API_KEY, or MCP_API_KEYS, "
+        "or set API_KEY_MODE=disabled for intentional no-auth mode."
+    )
+
+
+def _health_auth_mode() -> str:
+    if _auth_is_disabled():
+        return "disabled"
+    return "bearer-token"
 
 
 class StaticApiKeyVerifier(TokenVerifier):
@@ -143,7 +169,8 @@ class StaticApiKeyVerifier(TokenVerifier):
 validate_auth_environment()
 
 api_keys = _load_api_keys()
-auth = StaticApiKeyVerifier(api_keys=api_keys, base_url=_runtime_env("BASE_URL")) if api_keys else None
+_require_api_keys_configured(api_keys)
+auth = None if _auth_is_disabled() else StaticApiKeyVerifier(api_keys=api_keys, base_url=_runtime_env("BASE_URL"))
 server = FastMCP(name="slack-mcp", auth=auth)
 mcp = server
 
@@ -169,6 +196,7 @@ def _health_payload() -> dict[str, Any]:
         "implementation": "fastmcp-python-native",
         "backendMode": "native",
         "backendCommand": None,
+        "mcpAuthMode": _health_auth_mode(),
         "defaultEnabledTools": list(DEFAULT_ENABLED_TOOLS),
         "configuredEnabledTools": _configured_enabled_tools_payload(),
         "effectiveEnabledTools": _effective_enabled_tools_payload(),

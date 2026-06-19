@@ -11,17 +11,23 @@ This document defines the native Python runtime configuration model.
 | `SLACK_MCP_XOXC_TOKEN` | Yes | Slack browser-session token |
 | `SLACK_MCP_XOXD_TOKEN` | Yes | Slack browser-session cookie token |
 
-## Recommended MCP auth
+## MCP auth
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `SLACK_MCP_API_KEY` | Recommended | Bearer token accepted by the FastMCP HTTP layer |
+| `SLACK_MCP_API_KEY` | Yes unless `API_KEY_MODE=disabled` | Bearer token accepted by the FastMCP HTTP layer |
 
 Compatible aliases:
 
 - `MCP_API_KEY`
 - `MCP_API_KEYS`
 - `API_KEY_MODE`
+
+Notes:
+
+- MCP auth defaults to `required`.
+- Set `API_KEY_MODE=disabled` only for intentional no-auth deployments.
+- Missing MCP API keys now fail startup unless no-auth mode is explicit.
 
 ## Endpoint variables
 

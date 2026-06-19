@@ -201,6 +201,10 @@ def _api_key_auth_configured() -> bool:
     )
 
 
+def _mcp_auth_mode_label() -> str:
+    return "disabled" if _runtime_env("API_KEY_MODE", default="required").lower() == "disabled" else "required"
+
+
 def _configured_enabled_tools_label() -> str:
     configured = configured_enabled_tools()
     if configured is None:
@@ -289,6 +293,7 @@ def cmd_doctor(config: RuntimeConfig, _args: argparse.Namespace) -> int:
     print(f"configured_enabled_tools={_configured_enabled_tools_label()}")
     print(f"python_native_tools={_python_native_tools_label()}")
     print(f"python_native_resources={_python_native_resources_label()}")
+    print(f"mcp_auth_mode={_mcp_auth_mode_label()}")
     print(f"api_key_auth_configured={'yes' if _api_key_auth_configured() else 'no'}")
     try:
         validate_auth_environment()

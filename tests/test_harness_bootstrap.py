@@ -26,6 +26,7 @@ class HarnessBootstrapTests(LiveHarnessTestCase):
         self.assertEqual(payload["implementation"], "fastmcp-python-native")
         self.assertEqual(payload["backendMode"], "native")
         self.assertIsNone(payload["backendCommand"])
+        self.assertEqual(payload["mcpAuthMode"], "disabled")
         self.assertEqual(payload["configuredEnabledTools"], "all")
         self.assertEqual(payload["effectiveEnabledTools"], "all")
         self.assertFalse(payload["apiKeyAuthConfigured"])

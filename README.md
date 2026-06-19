@@ -27,10 +27,7 @@ The server exposes a validated Slack MCP surface for reading and acting against 
 
 - `SLACK_MCP_XOXC_TOKEN`
 - `SLACK_MCP_XOXD_TOKEN`
-
-Optional but recommended:
-
-- `SLACK_MCP_API_KEY`
+- `SLACK_MCP_API_KEY` unless you intentionally set `API_KEY_MODE=disabled`
 
 ## Quick Start
 
