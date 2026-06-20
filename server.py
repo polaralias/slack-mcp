@@ -171,7 +171,7 @@ validate_auth_environment()
 api_keys = _load_api_keys()
 _require_api_keys_configured(api_keys)
 auth = None if _auth_is_disabled() else StaticApiKeyVerifier(api_keys=api_keys, base_url=_runtime_env("BASE_URL"))
-server = FastMCP(name="slack-mcp", auth=auth)
+server = FastMCP(name="Slack", auth=auth)
 mcp = server
 
 
