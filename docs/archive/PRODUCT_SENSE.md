@@ -10,11 +10,11 @@ This project is not just a technical bridge to Slack. It is an MCP product surfa
 - auth that is explicit
 - read tools that are dependable
 - write tools that are safe and bounded
-- behavior that matches documentation
+- behaviour that matches documentation
 
 ## Product discipline
 
-It is acceptable to narrow or remove behavior only when that produces:
+It is acceptable to narrow or remove behaviour only when that produces:
 
 - a smaller trusted surface
 - clearer guarantees

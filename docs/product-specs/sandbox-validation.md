@@ -8,16 +8,16 @@ It is not the contract itself.
 
 ## Canonical current-state position
 
-Sandbox validation is the repository's current evidence mechanism for real Slack-backed behavior.
+Sandbox validation is the repository's current evidence mechanism for real Slack-backed behaviour.
 
 It proves:
 
 - observed runtime exposure
 - observed schema and argument acceptance
-- observed success or failure behavior
+- observed success or failure behaviour
 - fixture gaps that prevent full proof closure
 
-It does not by itself approve final end-state behavior for the Python rewrite.
+It does not by itself approve final end-state behaviour for the Python rewrite.
 
 ## Evidence classes
 
@@ -42,7 +42,7 @@ Examples:
 
 Use:
 
-- defines intended end-state behavior
+- defines intended end-state behaviour
 - should not be rewritten to match transitional defects by default
 
 ### Harness execution guidance
@@ -100,7 +100,7 @@ The following surfaces require explicit sandbox fixture handling before final-co
 - `saved_list`
 - `saved_update`
 - `saved_clear_completed`
-- resource normalization checks that depend on seeded data
+- resource normalisation checks that depend on seeded data
 
 Canonical fixture guidance lives in:
 
@@ -111,7 +111,7 @@ Canonical fixture guidance lives in:
 - Do not treat a single successful manual run as sufficient harness proof.
 - Do not widen support claims from local source inspection alone.
 - Do not delete old evidence notes when the contract improves.
-- Promote proven behavior into canonical contract docs in the same tranche that makes the proof trustworthy.
+- Promote proven behaviour into canonical contract docs in the same tranche that makes the proof trustworthy.
 
 ## Relationship to other docs
 

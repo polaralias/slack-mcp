@@ -1,6 +1,6 @@
 # Product Specs
 
-These documents define intended product behavior and boundaries.
+These documents define intended product behaviour and boundaries.
 
 ## Current specs
 

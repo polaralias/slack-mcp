@@ -62,4 +62,4 @@ Start with:
 - [docs/product-specs/tool-surface.md](docs/product-specs/tool-surface.md)
 - [docs/SECURITY.md](docs/SECURITY.md)
 
-For repository workflow and agent-focused context, read [AGENTS.md](AGENTS.md).
+For repository workflow and agent-focussed context, read [AGENTS.md](AGENTS.md).

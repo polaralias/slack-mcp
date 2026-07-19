@@ -1,4 +1,4 @@
-# Sandbox Fixture Catalog
+# Sandbox Fixture Catalogue
 
 ## Purpose
 
@@ -8,13 +8,13 @@ It is execution guidance, not product contract.
 
 ## Initial scope
 
-This catalog should start with the currently unproven or fixture-sensitive surfaces first:
+This catalogue should start with the currently unproven or fixture-sensitive surfaces first:
 
 - `attachment_get_data`
 - `saved_list`
 - `saved_update`
 - `saved_clear_completed`
-- any resource normalization checks that require seeded data
+- any resource normalisation checks that require seeded data
 
 It should be structured so it can expand to the full tool and resource surface later.
 
@@ -39,13 +39,13 @@ Each fixture entry should define:
 ### Saved items
 
 - create or identify at least one valid saved item fixture
-- verify list behavior in non-empty state
-- verify update behavior against a valid saved item
-- verify clear-completed behavior against an intentional completed-state fixture
+- verify list behaviour in non-empty state
+- verify update behaviour against a valid saved item
+- verify clear-completed behaviour against an intentional completed-state fixture
 
 ### Resources
 
-- verify final normalized resource output once the end-state resource schema is defined
+- verify final normalised resource output once the end-state resource schema is defined
 
 ## Relationship to other docs
 

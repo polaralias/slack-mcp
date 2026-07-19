@@ -244,8 +244,8 @@ That is more useful than treating tool presence alone as verification.
 
 Important distinction:
 
-- runtime validation records the observed behavior of dated runtimes
-- the Python contract harness should assert the intended final product behavior
+- runtime validation records the observed behaviour of dated runtimes
+- the Python contract harness should assert the intended final product behaviour
 - known current defects should be documented as current-state findings, not preserved as the default end-state contract
 
 Current harness decision:
@@ -255,7 +255,7 @@ Current harness decision:
 
 Current contract-definition decision:
 
-- each tool needs a canonical end-state contract covering exposure, arguments/schema, success-path behavior and output shape, intentional failure modes, and fixture expectations where needed
+- each tool needs a canonical end-state contract covering exposure, arguments/schema, success-path behaviour and output shape, intentional failure modes, and fixture expectations where needed
 
 ## Current compatibility target
 

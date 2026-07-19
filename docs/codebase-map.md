@@ -32,7 +32,7 @@ Older deep archaeology about the removed Go and npm runtime paths has been super
 - [tests/test_runtime_config.py](../tests/test_runtime_config.py)
   Native runtime configuration guardrails.
 - [tests/harness](../tests/harness)
-  Shared runtime, discovery, normalization, and tool-schema helpers.
+  Shared runtime, discovery, normalisation, and tool-schema helpers.
 
 ### Packaging and operations
 

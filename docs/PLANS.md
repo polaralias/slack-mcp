@@ -15,6 +15,6 @@ Completed and archived:
 
 1. Keep the Python-native 22-tool contract green under black-box MCP tests.
 2. Consolidate or retire transitional migration-era flags and helper pathways where they no longer add value.
-3. Promote more end-state contract assertions from “observed runtime” to explicit final behavior.
+3. Promote more end-state contract assertions from “observed runtime” to explicit final behaviour.
 4. Reduce documentation drift by keeping canonical docs aligned with shipped native code after each tranche.
 5. Improve ergonomics and packaging around the supported Python-native runtime only.

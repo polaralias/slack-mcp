@@ -41,7 +41,7 @@ Common optional settings:
 ## Tool exposure model
 
 - `SLACK_MCP_ENABLED_TOOLS` controls which tools are exposed.
-- Slack mutation behavior is governed directly by the native implementation rather than by a delegated backend selection path.
+- Slack mutation behaviour is governed directly by the native implementation rather than by a delegated backend selection path.
 
 ## Health and connectivity
 

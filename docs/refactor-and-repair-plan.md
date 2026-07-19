@@ -18,9 +18,9 @@ Latest verified evidence:
 
 - established the validated 22-tool and 2-resource contract surface
 - built a Python black-box MCP harness around that surface
-- migrated all validated tool behavior into direct Python Slack session code
+- migrated all validated tool behaviour into direct Python Slack session code
 - removed delegated backend selection and preserved only the native runtime path
-- updated packaging, compose, and CI toward the Python-native runtime
+- updated packaging, compose, and CI towards the Python-native runtime
 
 ## Current focus
 
@@ -37,7 +37,7 @@ Priority work:
 
 ### Contract hardening
 
-- promote more behavior from observed-runtime assertions into explicit final-contract assertions
+- promote more behaviour from observed-runtime assertions into explicit final-contract assertions
 - decide where text outputs should remain text and where structured output should be strengthened
 - keep fixture-sensitive success paths proven and maintained
 

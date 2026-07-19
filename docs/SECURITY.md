@@ -2,8 +2,8 @@
 
 ## Security goals
 
-- minimize secret exposure
-- minimize accidental write capability
+- minimise secret exposure
+- minimise accidental write capability
 - make auth mode explicit
 - reduce hidden runtime dependencies
 
@@ -15,7 +15,7 @@
 
 ## Current security concerns
 
-- historical runtime evidence can still be mistaken for supported product behavior
+- historical runtime evidence can still be mistaken for supported product behaviour
 - browser-session credentials are powerful and easy to leak in local validation
 
 ## Security baseline
@@ -24,4 +24,4 @@
 - exactly one supported Slack auth mode: `xoxc` plus `xoxd`
 - clear secret handling guidance
 - explicit tool exposure model
-- docs that separate verified support from inherited or legacy behavior
+- docs that separate verified support from inherited or legacy behaviour

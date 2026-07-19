@@ -1,6 +1,6 @@
 # Archive Index
 
-This section contains completed planning artifacts and historical internal notes that should not be treated as canonical current-state guidance.
+This section contains completed planning artefacts and historical internal notes that should not be treated as canonical current-state guidance.
 
 ## Archived here
 

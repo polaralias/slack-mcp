@@ -4,7 +4,7 @@
 
 This document is the canonical end-state product contract for the Slack MCP tool surface.
 
-It should define the intended final behavior of the local Python-only implementation, not merely describe transitional runtime observations.
+It should define the intended final behaviour of the local Python-only implementation, not merely describe transitional runtime observations.
 
 ## Scope
 
@@ -13,8 +13,8 @@ This spec is the authoritative source for the full 22-tool supported surface.
 Resource policy:
 
 - the two validated resources, `slack://<workspace>/channels` and `slack://<workspace>/users`, should remain in the final product as first-class supported surface
-- resources are convenience discovery surfaces, not the primary contract center of the product
-- resources should also normalize toward schema-first structured output rather than preserving CSV as the main end-state contract
+- resources are convenience discovery surfaces, not the primary contract centre of the product
+- resources should also normalise towards schema-first structured output rather than preserving CSV as the main end-state contract
 
 Admission policy:
 
@@ -24,20 +24,20 @@ Admission policy:
 Current status:
 
 - all 22 validated tools are now implemented in the supported Python-native runtime
-- the remaining contract work is about tightening normative behavior definitions, not about tool-surface migration
+- the remaining contract work is about tightening normative behaviour definitions, not about tool-surface migration
 
 Per-tool contract definition must cover:
 
 - exposure
 - arguments and schema
-- success-path behavior
+- success-path behaviour
 - output shape
 - intentional failure modes
 - fixture expectations where a success path depends on pre-created Slack state
 
 Output-shape policy:
 
-- the final product should standardize tool outputs into one explicit response style wherever practical
+- the final product should standardise tool outputs into one explicit response style wherever practical
 - schema-first structured outputs are the default contract target
 - human-readable text should be secondary to structured output
 - mixed legacy response formats are migration debt unless explicitly preserved by product decision
