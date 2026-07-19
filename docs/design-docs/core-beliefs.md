@@ -9,7 +9,7 @@ This project should become a trustworthy Slack MCP server that is:
 - understandable by a future maintainer
 - defensible as public portfolio work
 
-## What we optimize for
+## What we optimise for
 
 - one canonical implementation
 - one canonical tool surface
@@ -21,7 +21,7 @@ This project should become a trustworthy Slack MCP server that is:
 
 - hidden runtime provenance
 - “works on latest package” as a substitute for source truth
-- undocumented behavior dependencies
+- undocumented behaviour dependencies
 - rewrite work without contract tests
 
 ## Product posture

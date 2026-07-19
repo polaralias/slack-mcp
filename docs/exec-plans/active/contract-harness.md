@@ -6,7 +6,7 @@ Create the first Python black-box MCP contract harness for development work in t
 
 The harness must support repair and rewrite work without collapsing the distinction between:
 
-- current observed runtime behavior
+- current observed runtime behaviour
 - intended final product contract
 - remaining proof gaps
 
@@ -15,7 +15,7 @@ The harness must support repair and rewrite work without collapsing the distinct
 - canonical current runtime is Python-native FastMCP
 - the validated live-runtime target is 22 tools plus 2 resources
 - canonical product and design docs now exist for auth, tool surface, runtime modes, and sandbox validation
-- a canonical sandbox fixture catalog exists for fixture-sensitive proof closure
+- a canonical sandbox fixture catalogue exists for fixture-sensitive proof closure
 
 ## Current gap
 
@@ -41,7 +41,7 @@ The harness exists and is green. The remaining gap is not harness existence, but
 
 ### Fixtures
 
-- use the canonical sandbox fixture catalog before adding fixture-sensitive assertions
+- use the canonical sandbox fixture catalogue before adding fixture-sensitive assertions
 - keep fixture setup and cleanup explicit and repeatable
 
 ## Initial implementation slices
@@ -89,7 +89,7 @@ Implemented now:
 
 - Slice 1 bootstrap test helper under `tests/harness/runtime.py`
 - shared live-test base class under `tests/harness/base.py`
-- shared normalization helpers under `tests/harness/normalize.py`
+- shared normalisation helpers under `tests/harness/normalize.py`
 - env-driven harness input helpers under `tests/harness/inputs.py`
 - canonical observed-surface inventory constants under `tests/harness/contract.py`
 - black-box bootstrap suite under `tests/test_harness_bootstrap.py`
@@ -169,7 +169,7 @@ Current full-suite status:
 - the harness targets the Python MCP boundary, not backend internals
 - the harness distinguishes observed-surface coverage from final-contract admission
 - runtime mode and doctor diagnostics are captured per run
-- fixture-sensitive surfaces use the canonical sandbox fixture catalog
+- fixture-sensitive surfaces use the canonical sandbox fixture catalogue
 
 ## Read next
 

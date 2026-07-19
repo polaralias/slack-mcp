@@ -10,5 +10,5 @@ Examples:
 
 Current state:
 
-- no generated canonical artifacts committed yet
+- no generated canonical artefacts committed yet
 

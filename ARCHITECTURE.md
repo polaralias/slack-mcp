@@ -50,4 +50,4 @@ Current evidence:
 
 ## Historical note
 
-Older dated documents may still discuss package-backed or Go-backed runtime behavior. Those references are retained as evidence of how the contract was established, not as active architecture guidance.
+Older dated documents may still discuss package-backed or Go-backed runtime behaviour. Those references are retained as evidence of how the contract was established, not as active architecture guidance.

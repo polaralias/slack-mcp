@@ -22,7 +22,7 @@ For contributors and operators, the supported setup is:
 
 Optional:
 
-- Docker, if you want the containerized path
+- Docker, if you want the containerised path
 
 ## Install local Python environment
 

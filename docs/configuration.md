@@ -42,7 +42,7 @@ Compatible aliases:
 | --- | --- | --- |
 | `SLACK_MCP_ENABLED_TOOLS` | all 22 validated tools | Restricts exposed tools when set to a comma-separated allowlist |
 
-## Slack behavior and tuning
+## Slack behaviour and tuning
 
 | Variable | Default | Purpose |
 | --- | --- | --- |

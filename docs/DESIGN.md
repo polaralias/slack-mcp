@@ -8,7 +8,7 @@ Design docs should answer:
 
 - what should exist
 - why it should exist
-- what behavior is worth preserving
+- what behaviour is worth preserving
 - what legacy complexity should be retired
 
 ## Canonical design entrypoints

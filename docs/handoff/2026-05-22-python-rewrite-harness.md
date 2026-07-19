@@ -82,7 +82,7 @@ Important operational note:
 - added native Python implementations for `conversations_add_message`, `conversations_join`, `conversations_leave`, `conversations_mark`, `reactions_add`, `reactions_remove`, and `attachment_get_data`
 - added native Python implementations for `usergroups_create`, `usergroups_list`, `usergroups_me`, `usergroups_update`, and `usergroups_users_update`
 - added a full-surface native runtime proof and fixture-sensitive native write, attachment, and usergroup proofs
-- removed supported Go runtime code, npm launcher artifacts, and delegated backend selection from the repository
+- removed supported Go runtime code, npm launcher artefacts, and delegated backend selection from the repository
 - updated canonical packaging, CI, and documentation to describe the native-only runtime
 - added runtime-config tests that guard the no-backend, xoxc/xoxd-only configuration model
 

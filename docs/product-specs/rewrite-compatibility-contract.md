@@ -4,7 +4,7 @@
 
 This document defines how the repository preserves the intended end-state product contract now that the Python rewrite has replaced the transitional runtime dependencies.
 
-It is not the per-tool normative behavior spec. That belongs in:
+It is not the per-tool normative behaviour spec. That belongs in:
 
 - [tool-surface.md](tool-surface.md)
 
@@ -17,13 +17,13 @@ This spec should describe:
 - how transitional runtime observations relate to the target contract
 - how temporary migration gaps are identified and retired
 - a clear separation between:
-  - current validated runtime behavior
-  - target end-state behavior
+  - current validated runtime behaviour
+  - target end-state behaviour
   - accepted temporary migration gaps
 - a two-layer harness model:
   - observed-surface coverage for all 22 validated live-runtime tools
   - final-contract assertions for tools admitted by proof
-- how legacy mixed output formats are normalized into the final schema-first contract
+- how legacy mixed output formats are normalised into the final schema-first contract
 - a separate but parallel treatment of resources versus tools in coverage and final-contract admission
 - proof closure requirements for currently unproven surfaces before those surfaces count as admitted final contract
 
@@ -36,7 +36,7 @@ That target means:
 - no Go runtime path in supported product code
 - no npm package backend in supported product code
 - no delegated backend process behind the FastMCP server
-- no contract dependency on externally packaged backend artifacts for tool availability
+- no contract dependency on externally packaged backend artefacts for tool availability
 
 This document treats the historical package-backed runtime only as a transition reference and validation source.
 
@@ -47,12 +47,12 @@ The rewrite must preserve these external truths unless an explicit product decis
 - the full 22-tool validated live-runtime scope remains the default compatibility target
 - the two validated `slack://<workspace>/channels` and `slack://<workspace>/users` resources remain in scope
 - auth remains browser-session based through `xoxc` plus `xoxd`
-- MCP behavior is preserved at the Python server boundary, not by file-for-file backend porting
+- MCP behaviour is preserved at the Python server boundary, not by file-for-file backend porting
 
 The rewrite does not need to preserve:
 
 - Go package structure
-- npm launcher behavior
+- npm launcher behaviour
 - mixed text-first legacy output formats
 - transitional gate quirks that only exist because the current runtime is package-backed
 
@@ -72,7 +72,7 @@ Current note:
 
 ## Migration model
 
-The migration happened by behavior slice behind the contract harness:
+The migration happened by behaviour slice behind the contract harness:
 
 1. auth and session plumbing
 2. Slack web-client request helpers
@@ -81,16 +81,16 @@ The migration happened by behavior slice behind the contract harness:
 5. saved-item tools
 6. attachments
 7. usergroup tools
-8. resource normalization
+8. resource normalisation
 
-Those slices replaced package-backed behavior with Python-native behavior without widening the public contract surface.
+Those slices replaced package-backed behaviour with Python-native behaviour without widening the public contract surface.
 
 ## Harness enforcement
 
 The contract harness enforces migration in two layers:
 
 - observed-surface coverage for the full transitional 22-tool runtime
-- final-contract assertions for proven end-state behavior
+- final-contract assertions for proven end-state behaviour
 
 Any future contract-affecting slice should meet the same bar:
 
@@ -117,8 +117,8 @@ Current examples:
 ## Current structural decision
 
 - keep this document separate from the canonical per-tool contract
-- use this document for migration, harness, and preservation rules rather than duplicating tool-by-tool behavior definitions
-- do not treat unproven success paths as fully admitted final-contract behavior
+- use this document for migration, harness, and preservation rules rather than duplicating tool-by-tool behaviour definitions
+- do not treat unproven success paths as fully admitted final-contract behaviour
 - keep all 22 tools in rewrite scope unless an explicit product decision removes one
 - treat plain-text success outputs in transitional runtimes as migration mismatches to retire unless explicitly preserved
-- keep fixture catalog and proof-closure procedures in execution or harness docs rather than product-spec docs
+- keep fixture catalogue and proof-closure procedures in execution or harness docs rather than product-spec docs

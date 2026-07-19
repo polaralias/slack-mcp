@@ -4,7 +4,7 @@
 
 This repository is in a native-runtime hardening phase.
 
-Agent work should optimize for:
+Agent work should optimise for:
 
 - repository truth
 - reproducible verification
@@ -36,10 +36,10 @@ High-signal current-state references:
 ## Working principles
 
 - Treat docs as claims until verified.
-- Treat code as intended behavior until tested.
+- Treat code as intended behaviour until tested.
 - Prefer black-box MCP boundary validation over implementation assumptions.
 - Do not silently collapse distinctions between:
-  - current supported Python-native behavior
+  - current supported Python-native behaviour
   - historical runtime evidence
   - desired future contract refinements
 
@@ -51,11 +51,11 @@ High-signal current-state references:
 - Configuration and tool-surface claims must identify whether they describe:
   - canonical intended support
   - validated live runtime support
-  - legacy or inherited behavior
+  - legacy or inherited behaviour
 
 ## Change rules
 
-- New behavior should be specified in product- or design-level docs before implementation when the behavior is user-visible.
+- New behaviour should be specified in product- or design-level docs before implementation when the behaviour is user-visible.
 - New tests should prefer Python black-box MCP boundary assertions over backend-internal assumptions.
 - Do not reintroduce delegated backend patterns or secondary runtime paths without an explicit product decision and matching contract updates.
 

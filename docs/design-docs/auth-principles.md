@@ -2,9 +2,9 @@
 
 ## Purpose
 
-This document defines the desired end state for authentication and authorization in the rewritten Python-only server.
+This document defines the desired end state for authentication and authorisation in the rewritten Python-only server.
 
-It does not describe every legacy token path that may still exist in inherited code or package artifacts.
+It does not describe every legacy token path that may still exist in inherited code or package artefacts.
 
 ## Desired end state
 
@@ -38,7 +38,7 @@ Reasons:
 
 ## Migration note
 
-Legacy docs currently describe `xoxp` and `xoxb` support. Those paths may continue to exist in inherited code or packaged artifacts during migration, but they are not part of the final supported auth contract for the local Python rewrite.
+Legacy docs currently describe `xoxp` and `xoxb` support. Those paths may continue to exist in inherited code or packaged artefacts during migration, but they are not part of the final supported auth contract for the local Python rewrite.
 
 References:
 

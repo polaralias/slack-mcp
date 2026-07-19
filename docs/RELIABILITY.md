@@ -14,7 +14,7 @@ The service is operationally real and now has a single supported runtime path: t
 
 ## Current reliability risks
 
-- Slack-side behavioral drift could still affect fixture-sensitive tools
+- Slack-side behavioural drift could still affect fixture-sensitive tools
 - some success paths depend on mutable sandbox state
 - historical docs can still be mistaken for active implementation guidance
 
