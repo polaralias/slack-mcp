@@ -1,3 +1,18 @@
+---
+type: "Historical Evidence"
+title: "Product Sense"
+description: "Documents Product Sense for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: evidence
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - historical-evidence
+navigation:
+  role: reference
+  order: 200
+---
 # Product Sense
 
 ## Product framing
@@ -20,3 +35,7 @@ It is acceptable to narrow or remove behaviour only when that produces:
 - clearer guarantees
 - better tests
 - clearer security posture
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

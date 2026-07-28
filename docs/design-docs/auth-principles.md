@@ -1,3 +1,18 @@
+---
+type: "Security Boundary"
+title: "Auth Principles"
+description: "Documents Auth Principles for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - security-boundary
+navigation:
+  role: foundational
+  order: 20
+---
 # Auth Principles
 
 ## Purpose
@@ -45,3 +60,7 @@ References:
 - [../product-specs/auth-model.md](../product-specs/auth-model.md)
 - [../SECURITY.md](../SECURITY.md)
 - [../../backend_runtime.py](../../backend_runtime.py)
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

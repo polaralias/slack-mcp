@@ -1,3 +1,18 @@
+---
+type: "Delivery Plan"
+title: "Plans"
+description: "Documents Plans for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - delivery-plan
+navigation:
+  role: supporting
+  order: 100
+---
 # Plans
 
 ## Canonical plan docs
@@ -18,3 +33,7 @@ Completed and archived:
 3. Promote more end-state contract assertions from “observed runtime” to explicit final behaviour.
 4. Reduce documentation drift by keeping canonical docs aligned with shipped native code after each tranche.
 5. Improve ergonomics and packaging around the supported Python-native runtime only.
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

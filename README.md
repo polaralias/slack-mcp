@@ -1,3 +1,18 @@
+---
+type: "Repository Guide"
+title: "Slack MCP"
+description: "Documents Slack MCP for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - repository-guide
+navigation:
+  role: entry-point
+  order: 10
+---
 <p align="center">
   <img src="Slack%20MCP.png" alt="Slack MCP banner" width="960" />
 </p>
@@ -63,3 +78,7 @@ Start with:
 - [docs/SECURITY.md](docs/SECURITY.md)
 
 For repository workflow and agent-focussed context, read [AGENTS.md](AGENTS.md).
+
+## Repository knowledge
+
+- [Documentation map](docs/knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

@@ -1,3 +1,18 @@
+---
+type: "Product Contract"
+title: "Sandbox Validation"
+description: "Documents Sandbox Validation for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - product-contract
+navigation:
+  role: foundational
+  order: 20
+---
 # Sandbox Validation
 
 ## Purpose
@@ -119,3 +134,7 @@ Canonical fixture guidance lives in:
 - [tool-surface.md](tool-surface.md)
 - [../tool-reference.md](../tool-reference.md)
 - [../runtime-validation-2026-05-16.md](../runtime-validation-2026-05-16.md)
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

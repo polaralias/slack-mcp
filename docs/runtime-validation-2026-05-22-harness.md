@@ -1,3 +1,18 @@
+---
+type: "Validation Evidence"
+title: "Runtime Validation 2026-05-22 Harness"
+description: "Documents Runtime Validation 2026-05-22 Harness for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: evidence
+verification: verified-limited
+owner: polaralias
+tags:
+  - slack-mcp
+  - validation-evidence
+navigation:
+  role: reference
+  order: 200
+---
 # Runtime Validation 2026-05-22 Harness
 
 ## Scope
@@ -143,3 +158,7 @@ Important saved-item finding:
 - [exec-plans/active/sandbox-fixture-catalog.md](exec-plans/active/sandbox-fixture-catalog.md)
 - [runtime-validation-2026-05-16.md](runtime-validation-2026-05-16.md)
 - [product-specs/sandbox-validation.md](product-specs/sandbox-validation.md)
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

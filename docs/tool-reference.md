@@ -1,3 +1,18 @@
+---
+type: "Reference"
+title: "Tool Reference"
+description: "Documents Tool Reference for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - reference
+navigation:
+  role: reference
+  order: 200
+---
 # Tool Reference
 
 ## Purpose
@@ -279,3 +294,7 @@ Validated live runtime resources:
 
 - `slack://<workspace>/channels`
 - `slack://<workspace>/users`
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

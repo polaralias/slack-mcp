@@ -1,3 +1,18 @@
+---
+type: "Product Contract"
+title: "Tool Surface"
+description: "Documents Tool Surface for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - product-contract
+navigation:
+  role: foundational
+  order: 20
+---
 # Tool Surface
 
 ## Purpose
@@ -60,3 +75,7 @@ A tool should not be admitted into the final end-state contract until its intend
 - keep this as one repo-wide canonical contract file for all 22 tools
 - do not split by domain unless the surface becomes too large to manage cleanly
 - use one fixed per-tool template across the whole file
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

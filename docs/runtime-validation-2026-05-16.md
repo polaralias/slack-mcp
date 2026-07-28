@@ -1,3 +1,18 @@
+---
+type: "Validation Evidence"
+title: "Runtime Validation 2026-05-16"
+description: "Documents Runtime Validation 2026-05-16 for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: evidence
+verification: verified-limited
+owner: polaralias
+tags:
+  - slack-mcp
+  - validation-evidence
+navigation:
+  role: reference
+  order: 200
+---
 # Runtime Validation 2026-05-16
 
 ## Scope
@@ -163,3 +178,7 @@ These were intentionally created as disposable verification artefacts.
 - Local repo surface and live packaged surface are out of sync.
 - `usergroups_me leave` appears broken or constrained.
 - `saved_clear_completed` appears broken or under-specified in the empty-fixture case.
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

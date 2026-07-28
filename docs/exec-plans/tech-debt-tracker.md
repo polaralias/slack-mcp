@@ -1,3 +1,18 @@
+---
+type: "Delivery Plan"
+title: "Tech Debt Tracker"
+description: "Documents Tech Debt Tracker for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - delivery-plan
+navigation:
+  role: supporting
+  order: 100
+---
 # Tech Debt Tracker
 
 ## P0
@@ -22,3 +37,7 @@ This file is a tracker, not the full plan.
 Primary plan reference:
 
 - [../refactor-and-repair-plan.md](../refactor-and-repair-plan.md)
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

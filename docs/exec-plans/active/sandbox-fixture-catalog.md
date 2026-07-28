@@ -1,3 +1,18 @@
+---
+type: "Delivery Plan"
+title: "Sandbox Fixture Catalogue"
+description: "Documents Sandbox Fixture Catalogue for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - delivery-plan
+navigation:
+  role: supporting
+  order: 100
+---
 # Sandbox Fixture Catalogue
 
 ## Purpose
@@ -53,3 +68,7 @@ Each fixture entry should define:
 - [../tech-debt-tracker.md](../tech-debt-tracker.md)
 - [../../product-specs/rewrite-compatibility-contract.md](../../product-specs/rewrite-compatibility-contract.md)
 - [../../runtime-validation-2026-05-16.md](../../runtime-validation-2026-05-16.md)
+
+## Repository knowledge
+
+- [Documentation map](../../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

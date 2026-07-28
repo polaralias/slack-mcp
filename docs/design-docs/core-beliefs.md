@@ -1,3 +1,18 @@
+---
+type: "Design Concept"
+title: "Core Beliefs"
+description: "Documents Core Beliefs for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - design-concept
+navigation:
+  role: supporting
+  order: 100
+---
 # Core Beliefs
 
 ## Why this project exists
@@ -36,3 +51,7 @@ Compatibility is valuable, and in this repository it is currently anchored to th
 - maintainability
 - reliability
 - security
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

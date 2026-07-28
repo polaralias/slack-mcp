@@ -1,3 +1,18 @@
+---
+type: "Glossary Concept"
+title: "Glossary"
+description: "Documents Glossary for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - glossary-concept
+navigation:
+  role: foundational
+  order: 20
+---
 # Glossary
 
 This glossary defines the product-language for the supported Python-native Slack MCP server.
@@ -81,3 +96,7 @@ _Avoid_: Assumed success path
 - internal fixture helpers could be mistaken for supported tools — resolved: **Harness-Only Helper Tool** is validation infrastructure only
 - fixture-dependent runtime success could be treated as self-proving — resolved: **Fixture-Sensitive Proof** requires explicit proof closure
 - historical validation notes could be treated as active setup guidance — resolved: they remain **Historical Runtime Evidence**, not canonical contract
+
+## Repository knowledge
+
+- [Documentation map](docs/knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

@@ -1,3 +1,18 @@
+---
+type: "Product Contract"
+title: "Contract Harness"
+description: "Documents Contract Harness for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - product-contract
+navigation:
+  role: foundational
+  order: 20
+---
 # Contract Harness
 
 ## Objective
@@ -179,3 +194,7 @@ Current full-suite status:
 - [../../product-specs/sandbox-validation.md](../../product-specs/sandbox-validation.md)
 - [sandbox-fixture-catalog.md](sandbox-fixture-catalog.md)
 - [../../runtime-validation-2026-05-16.md](../../runtime-validation-2026-05-16.md)
+
+## Repository knowledge
+
+- [Documentation map](../../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

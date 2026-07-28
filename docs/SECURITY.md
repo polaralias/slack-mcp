@@ -1,3 +1,18 @@
+---
+type: "Security Boundary"
+title: "Security"
+description: "Documents Security for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - security-boundary
+navigation:
+  role: foundational
+  order: 20
+---
 # Security
 
 ## Security goals
@@ -25,3 +40,7 @@
 - clear secret handling guidance
 - explicit tool exposure model
 - docs that separate verified support from inherited or legacy behaviour
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

@@ -1,3 +1,18 @@
+---
+type: "Delivery Plan"
+title: "Refactor And Repair Plan"
+description: "Documents Refactor And Repair Plan for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - delivery-plan
+navigation:
+  role: supporting
+  order: 100
+---
 # Refactor And Repair Plan
 
 ## Current status
@@ -70,3 +85,7 @@ Priority work:
 - dated evidence docs remain available for history without confusing active guidance
 - the black-box harness stays green and remains the default proof mechanism
 - repository packaging and CI paths align with native-only runtime support
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

@@ -1,3 +1,18 @@
+---
+type: "Decision"
+title: "Decision 0001: Final Contract Principles"
+description: "Documents Decision 0001: Final Contract Principles for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - decision
+navigation:
+  role: foundational
+  order: 20
+---
 # Decision 0001: Final Contract Principles
 
 ## Status
@@ -41,3 +56,7 @@ The repository's final end-state principles are:
 - [../product-specs/tool-surface.md](../product-specs/tool-surface.md)
 - [../product-specs/rewrite-compatibility-contract.md](../product-specs/rewrite-compatibility-contract.md)
 - [../refactor-and-repair-plan.md](../refactor-and-repair-plan.md)
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

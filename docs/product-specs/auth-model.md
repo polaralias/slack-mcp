@@ -1,3 +1,18 @@
+---
+type: "Product Contract"
+title: "Auth Model"
+description: "Documents Auth Model for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - product-contract
+navigation:
+  role: foundational
+  order: 20
+---
 # Auth Model
 
 ## Product question
@@ -42,3 +57,7 @@ Primary supported MCP client auth:
 - [../runtime-validation-2026-05-23-native-bootstrap.md](../runtime-validation-2026-05-23-native-bootstrap.md)
 - [../runtime-validation-2026-05-16.md](../runtime-validation-2026-05-16.md)
 - [../refactor-and-repair-plan.md](../refactor-and-repair-plan.md)
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

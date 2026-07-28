@@ -1,3 +1,18 @@
+---
+type: "Security Boundary"
+title: "Security Policy"
+description: "Documents Security Policy for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - security-boundary
+navigation:
+  role: foundational
+  order: 20
+---
 # Security Policy
 
 ## Supported Versions
@@ -36,3 +51,7 @@ We kindly ask that you:
 - Give us adequate time to address the issue.
 
 Your help in keeping this project and its users secure is highly appreciated. 💙
+
+## Repository knowledge
+
+- [Documentation map](docs/knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

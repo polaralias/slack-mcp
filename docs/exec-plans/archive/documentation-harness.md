@@ -1,3 +1,18 @@
+---
+type: "Historical Evidence"
+title: "Documentation Harness"
+description: "Documents Documentation Harness for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: evidence
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - historical-evidence
+navigation:
+  role: reference
+  order: 200
+---
 # Documentation Harness
 
 ## Objective
@@ -42,3 +57,7 @@ Current active follow-on:
 Current maintenance rule:
 
 - when code changes alter supported runtime truth, canonical docs should be updated in the same tranche
+
+## Repository knowledge
+
+- [Documentation map](../../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

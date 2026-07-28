@@ -1,3 +1,18 @@
+---
+type: "Reference"
+title: "2. Installation"
+description: "Documents 2. Installation for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - reference
+navigation:
+  role: reference
+  order: 200
+---
 # 2. Installation
 
 ## Purpose
@@ -56,3 +71,7 @@ docker compose logs -f
 ## Next
 
 - [03-configuration-and-usage.md](03-configuration-and-usage.md)
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

@@ -1,3 +1,18 @@
+---
+type: "Product Contract"
+title: "Rewrite Compatibility Contract"
+description: "Documents Rewrite Compatibility Contract for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - product-contract
+navigation:
+  role: foundational
+  order: 20
+---
 # Rewrite Compatibility Contract
 
 ## Purpose
@@ -122,3 +137,7 @@ Current examples:
 - keep all 22 tools in rewrite scope unless an explicit product decision removes one
 - treat plain-text success outputs in transitional runtimes as migration mismatches to retire unless explicitly preserved
 - keep fixture catalogue and proof-closure procedures in execution or harness docs rather than product-spec docs
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

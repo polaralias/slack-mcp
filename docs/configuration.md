@@ -1,3 +1,18 @@
+---
+type: "Reference"
+title: "Configuration Reference"
+description: "Documents Configuration Reference for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - reference
+navigation:
+  role: reference
+  order: 200
+---
 # Configuration Reference
 
 ## Purpose
@@ -74,3 +89,7 @@ SLACK_MCP_ENABLED_TOOLS=all
 SLACK_MCP_PORT=3005
 SLACK_MCP_PATH=/mcp
 ```
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.
