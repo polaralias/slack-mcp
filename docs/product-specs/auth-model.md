@@ -1,3 +1,18 @@
+---
+type: "Product Contract"
+title: "Auth Model"
+description: "Documents Auth Model for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - product-contract
+navigation:
+  role: foundational
+  order: 20
+---
 # Auth Model
 
 ## Product question
@@ -18,9 +33,9 @@ This is the intended final product contract, not a statement that every inherite
 Primary supported MCP client auth:
 
 - bearer token via `SLACK_MCP_API_KEY`
-- generic aliases may remain for compatibility, but should not be the center of docs
+- generic aliases may remain for compatibility, but should not be the centre of docs
 
-## Desired operational behavior
+## Desired operational behaviour
 
 - startup fails clearly if required Slack auth values are missing
 - startup fails clearly if conflicting legacy token modes are supplied
@@ -29,7 +44,7 @@ Primary supported MCP client auth:
 
 ## Current known gaps
 
-- historical evidence docs still mention broader token behavior because they record dated runtime observations
+- historical evidence docs still mention broader token behaviour because they record dated runtime observations
 - browser-session credentials remain a high-trust local secret and require careful operator handling
 
 ## Final auth decision
@@ -42,3 +57,7 @@ Primary supported MCP client auth:
 - [../runtime-validation-2026-05-23-native-bootstrap.md](../runtime-validation-2026-05-23-native-bootstrap.md)
 - [../runtime-validation-2026-05-16.md](../runtime-validation-2026-05-16.md)
 - [../refactor-and-repair-plan.md](../refactor-and-repair-plan.md)
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

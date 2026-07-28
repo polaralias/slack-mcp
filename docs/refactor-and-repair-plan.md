@@ -1,3 +1,18 @@
+---
+type: "Delivery Plan"
+title: "Refactor And Repair Plan"
+description: "Documents Refactor And Repair Plan for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - delivery-plan
+navigation:
+  role: supporting
+  order: 100
+---
 # Refactor And Repair Plan
 
 ## Current status
@@ -18,9 +33,9 @@ Latest verified evidence:
 
 - established the validated 22-tool and 2-resource contract surface
 - built a Python black-box MCP harness around that surface
-- migrated all validated tool behavior into direct Python Slack session code
+- migrated all validated tool behaviour into direct Python Slack session code
 - removed delegated backend selection and preserved only the native runtime path
-- updated packaging, compose, and CI toward the Python-native runtime
+- updated packaging, compose, and CI towards the Python-native runtime
 
 ## Current focus
 
@@ -37,7 +52,7 @@ Priority work:
 
 ### Contract hardening
 
-- promote more behavior from observed-runtime assertions into explicit final-contract assertions
+- promote more behaviour from observed-runtime assertions into explicit final-contract assertions
 - decide where text outputs should remain text and where structured output should be strengthened
 - keep fixture-sensitive success paths proven and maintained
 
@@ -70,3 +85,7 @@ Priority work:
 - dated evidence docs remain available for history without confusing active guidance
 - the black-box harness stays green and remains the default proof mechanism
 - repository packaging and CI paths align with native-only runtime support
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

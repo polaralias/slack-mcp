@@ -1,3 +1,18 @@
+---
+type: "Architecture Concept"
+title: "Architecture"
+description: "Documents Architecture for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - architecture-concept
+navigation:
+  role: foundational
+  order: 20
+---
 # Architecture
 
 ## Summary
@@ -50,4 +65,8 @@ Current evidence:
 
 ## Historical note
 
-Older dated documents may still discuss package-backed or Go-backed runtime behavior. Those references are retained as evidence of how the contract was established, not as active architecture guidance.
+Older dated documents may still discuss package-backed or Go-backed runtime behaviour. Those references are retained as evidence of how the contract was established, not as active architecture guidance.
+
+## Repository knowledge
+
+- [Documentation map](docs/knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

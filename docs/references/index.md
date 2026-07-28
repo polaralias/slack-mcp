@@ -5,7 +5,7 @@ This section is for supporting material, legacy references, and implementation-a
 ## Current reference classes
 
 - legacy inherited docs under `docs/`
-- runtime analysis artifacts
+- runtime analysis artefacts
 - code-oriented references
 
 ## Important warning

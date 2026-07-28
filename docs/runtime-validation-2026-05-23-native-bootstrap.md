@@ -1,3 +1,18 @@
+---
+type: "Validation Evidence"
+title: "Runtime Validation 2026-05-23 Native Runtime"
+description: "Documents Runtime Validation 2026-05-23 Native Runtime for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: evidence
+verification: verified-limited
+owner: polaralias
+tags:
+  - slack-mcp
+  - validation-evidence
+navigation:
+  role: reference
+  order: 200
+---
 # Runtime Validation 2026-05-23 Native Runtime
 
 ## Scope
@@ -118,3 +133,7 @@ What this proved:
 - [product-specs/runtime-modes.md](product-specs/runtime-modes.md)
 - [exec-plans/active/contract-harness.md](exec-plans/active/contract-harness.md)
 - [runtime-validation-2026-05-22-harness.md](runtime-validation-2026-05-22-harness.md)
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

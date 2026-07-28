@@ -1,3 +1,18 @@
+---
+type: "Validation Evidence"
+title: "Runtime Validation 2026-05-16"
+description: "Documents Runtime Validation 2026-05-16 for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: evidence
+verification: verified-limited
+owner: polaralias
+tags:
+  - slack-mcp
+  - validation-evidence
+navigation:
+  role: reference
+  order: 200
+---
 # Runtime Validation 2026-05-16
 
 ## Scope
@@ -14,7 +29,7 @@ Important consequence:
 
 - these results validate the Python wrapper and the live packaged backend path
 - these results do **not** prove that the checked-in local Go source in this repository matches the runtime that was exercised
-- these results document current observed behavior, not the approved final end-state contract for the Python rewrite
+- these results document current observed behaviour, not the approved final end-state contract for the Python rewrite
 
 ## Environment
 
@@ -122,7 +137,7 @@ This is materially different from the 16-tool surface described in [docs/tool-re
   Repeatedly returned `invalid_arguments`, even when tested on a freshly created group that the current user had just joined.
   This should be treated as a candidate bug or an undocumented Slack-side constraint.
 
-## Test artifacts created in Slack
+## Test artefacts created in Slack
 
 Messages created in the primary sandbox validation channel:
 
@@ -133,13 +148,13 @@ Messages created in the primary sandbox validation channel:
 User groups created:
 
 - one disposable validation group for update and membership tests
-- one disposable validation group for leave-behavior checks
+- one disposable validation group for leave-behaviour checks
 
-These were intentionally created as disposable verification artifacts.
+These were intentionally created as disposable verification artefacts.
 
-## Behavioral notes
+## Behavioural notes
 
-- `conversations_add_message` in the live packaged backend returns plain success text with timestamps, not the CSV message row behavior present in the local checked-in handler code.
+- `conversations_add_message` in the live packaged backend returns plain success text with timestamps, not the CSV message row behaviour present in the local checked-in handler code.
 - Search appears to have at least mild freshness/indexing delay. The first broad search immediately after posting did not return results, while a subsequent retry did.
 - `channels_me` reported `MemberCount` as `0` for joined public channels in the sandbox output, which may be a formatting or mapping issue rather than a true count.
 
@@ -153,7 +168,7 @@ These were intentionally created as disposable verification artifacts.
 
 ### What is not proven
 
-- The local Go source in this repository matches the behavior of the live packaged backend.
+- The local Go source in this repository matches the behaviour of the live packaged backend.
 - The local Go runtime path works at all on this machine.
 - The Docker deployment path works on this machine.
 - Success-path attachment retrieval and saved-item mutation are valid in the current sandbox workspace.
@@ -163,3 +178,7 @@ These were intentionally created as disposable verification artifacts.
 - Local repo surface and live packaged surface are out of sync.
 - `usergroups_me leave` appears broken or constrained.
 - `saved_clear_completed` appears broken or under-specified in the empty-fixture case.
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

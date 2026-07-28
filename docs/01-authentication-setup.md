@@ -1,3 +1,18 @@
+---
+type: "Security Boundary"
+title: "1. Authentication Setup"
+description: "Documents 1. Authentication Setup for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - security-boundary
+navigation:
+  role: foundational
+  order: 20
+---
 # 1. Authentication Setup
 
 ## Purpose
@@ -103,3 +118,7 @@ Reference:
 ## Next
 
 - [02-installation.md](02-installation.md)
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

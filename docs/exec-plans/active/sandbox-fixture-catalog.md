@@ -1,4 +1,19 @@
-# Sandbox Fixture Catalog
+---
+type: "Delivery Plan"
+title: "Sandbox Fixture Catalogue"
+description: "Documents Sandbox Fixture Catalogue for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - delivery-plan
+navigation:
+  role: supporting
+  order: 100
+---
+# Sandbox Fixture Catalogue
 
 ## Purpose
 
@@ -8,13 +23,13 @@ It is execution guidance, not product contract.
 
 ## Initial scope
 
-This catalog should start with the currently unproven or fixture-sensitive surfaces first:
+This catalogue should start with the currently unproven or fixture-sensitive surfaces first:
 
 - `attachment_get_data`
 - `saved_list`
 - `saved_update`
 - `saved_clear_completed`
-- any resource normalization checks that require seeded data
+- any resource normalisation checks that require seeded data
 
 It should be structured so it can expand to the full tool and resource surface later.
 
@@ -39,13 +54,13 @@ Each fixture entry should define:
 ### Saved items
 
 - create or identify at least one valid saved item fixture
-- verify list behavior in non-empty state
-- verify update behavior against a valid saved item
-- verify clear-completed behavior against an intentional completed-state fixture
+- verify list behaviour in non-empty state
+- verify update behaviour against a valid saved item
+- verify clear-completed behaviour against an intentional completed-state fixture
 
 ### Resources
 
-- verify final normalized resource output once the end-state resource schema is defined
+- verify final normalised resource output once the end-state resource schema is defined
 
 ## Relationship to other docs
 
@@ -53,3 +68,7 @@ Each fixture entry should define:
 - [../tech-debt-tracker.md](../tech-debt-tracker.md)
 - [../../product-specs/rewrite-compatibility-contract.md](../../product-specs/rewrite-compatibility-contract.md)
 - [../../runtime-validation-2026-05-16.md](../../runtime-validation-2026-05-16.md)
+
+## Repository knowledge
+
+- [Documentation map](../../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

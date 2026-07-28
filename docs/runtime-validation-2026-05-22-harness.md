@@ -1,3 +1,18 @@
+---
+type: "Validation Evidence"
+title: "Runtime Validation 2026-05-22 Harness"
+description: "Documents Runtime Validation 2026-05-22 Harness for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: evidence
+verification: verified-limited
+owner: polaralias
+tags:
+  - slack-mcp
+  - validation-evidence
+navigation:
+  role: reference
+  order: 200
+---
 # Runtime Validation 2026-05-22 Harness
 
 ## Scope
@@ -17,9 +32,9 @@ Slack auth used:
 
 ## Important distinction
 
-This validation proves current observed behavior of the harness target runtime.
+This validation proves current observed behaviour of the harness target runtime.
 
-It does not by itself admit final-contract behavior for the future Python-only rewrite.
+It does not by itself admit final-contract behaviour for the future Python-only rewrite.
 
 ## Harness configuration used
 
@@ -35,7 +50,7 @@ Why this matters:
 - without the explicit gate variables, the package runtime exposed only 18 tools in the initial harness pass on 2026-05-22
 - with the explicit gate variables, the package runtime exposed the full 22-tool live-runtime surface
 
-That difference is current observed runtime behavior and should not be silently collapsed into the simpler root setup story.
+That difference is current observed runtime behaviour and should not be silently collapsed into the simpler root setup story.
 
 ## Harness results
 
@@ -135,7 +150,7 @@ Important saved-item finding:
 
 ## Current open items
 
-- decide where current observed gate-dependent exposure behavior should be reflected in broader contributor-facing configuration docs
+- decide where current observed gate-dependent exposure behaviour should be reflected in broader contributor-facing configuration docs
 
 ## Relationship to other docs
 
@@ -143,3 +158,7 @@ Important saved-item finding:
 - [exec-plans/active/sandbox-fixture-catalog.md](exec-plans/active/sandbox-fixture-catalog.md)
 - [runtime-validation-2026-05-16.md](runtime-validation-2026-05-16.md)
 - [product-specs/sandbox-validation.md](product-specs/sandbox-validation.md)
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

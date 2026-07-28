@@ -1,3 +1,18 @@
+---
+type: "Reference"
+title: "3. Configuration And Usage"
+description: "Documents 3. Configuration And Usage for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - reference
+navigation:
+  role: reference
+  order: 200
+---
 # 3. Configuration And Usage
 
 ## Runtime shape
@@ -41,7 +56,7 @@ Common optional settings:
 ## Tool exposure model
 
 - `SLACK_MCP_ENABLED_TOOLS` controls which tools are exposed.
-- Slack mutation behavior is governed directly by the native implementation rather than by a delegated backend selection path.
+- Slack mutation behaviour is governed directly by the native implementation rather than by a delegated backend selection path.
 
 ## Health and connectivity
 
@@ -91,3 +106,7 @@ curl http://127.0.0.1:3005/health
 - install: [02-installation.md](02-installation.md)
 - detailed config: [configuration.md](configuration.md)
 - runtime findings: [runtime-validation-2026-05-23-native-bootstrap.md](runtime-validation-2026-05-23-native-bootstrap.md)
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

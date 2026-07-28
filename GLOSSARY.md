@@ -1,3 +1,18 @@
+---
+type: "Glossary Concept"
+title: "Glossary"
+description: "Documents Glossary for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - glossary-concept
+navigation:
+  role: foundational
+  order: 20
+---
 # Glossary
 
 This glossary defines the product-language for the supported Python-native Slack MCP server.
@@ -16,14 +31,14 @@ _Avoid_: Transitional wrapper set, inherited runtime leftovers
 
 **Resource Surface**:
 The two validated Slack discovery resources, `slack://<workspace>/channels` and `slack://<workspace>/users`.
-_Avoid_: Main product contract center
+_Avoid_: Main product contract centre
 
 **Observed Surface**:
 The currently exposed runtime surface that the harness checks at the MCP boundary.
 _Avoid_: Final contract by assumption
 
 **Final Contract**:
-The intended end-state public behavior the repository is willing to preserve as the supported product.
+The intended end-state public behaviour the repository is willing to preserve as the supported product.
 _Avoid_: Whatever the transitional runtime happens to emit today
 
 **Schema-First Output**:
@@ -51,14 +66,14 @@ An internal validation tool used to create or clean up fixtures for proof closur
 _Avoid_: Public supported tool
 
 **Fixture-Sensitive Proof**:
-Validation that depends on prepared Slack state and therefore needs explicit fixture creation, cleanup, or catalog rules.
+Validation that depends on prepared Slack state and therefore needs explicit fixture creation, cleanup, or catalogue rules.
 _Avoid_: Assumed success path
 
 ## Relationships
 
 - The **Python-Native Runtime** implements the **Tool Surface** and **Resource Surface**
 - The **Observed Surface** is what the harness sees at the MCP boundary today
-- The **Final Contract** is narrower than raw observation when transitional behavior has not been admitted yet
+- The **Final Contract** is narrower than raw observation when transitional behaviour has not been admitted yet
 - The **Validated Contract Surface** includes the **Tool Surface** and the validated **Resource Surface**
 - **Schema-First Output** is the preferred contract direction for the **Tool Surface**
 - **Browser-Session Auth** is the only supported Slack-side auth for the **Python-Native Runtime**
@@ -74,10 +89,14 @@ _Avoid_: Assumed success path
 ## Flagged ambiguities
 
 - "runtime" could refer to either the old mixed implementation or the supported one — resolved: **Python-Native Runtime** is the active product path
-- validated resources could be mistaken for secondary leftovers — resolved: the **Resource Surface** is supported, but it is not the main contract center
+- validated resources could be mistaken for secondary leftovers — resolved: the **Resource Surface** is supported, but it is not the main contract centre
 - the currently observed runtime could be mistaken for the whole intended contract — resolved: distinguish **Observed Surface** from **Final Contract**
 - human-readable output could drift into the primary contract shape — resolved: **Schema-First Output** is the intended norm
 - Slack auth and MCP auth could be conflated — resolved: **Browser-Session Auth** and **MCP Bearer Auth** are separate layers
 - internal fixture helpers could be mistaken for supported tools — resolved: **Harness-Only Helper Tool** is validation infrastructure only
 - fixture-dependent runtime success could be treated as self-proving — resolved: **Fixture-Sensitive Proof** requires explicit proof closure
 - historical validation notes could be treated as active setup guidance — resolved: they remain **Historical Runtime Evidence**, not canonical contract
+
+## Repository knowledge
+
+- [Documentation map](docs/knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

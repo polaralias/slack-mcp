@@ -1,3 +1,18 @@
+---
+type: "Historical Evidence"
+title: "Quality Score"
+description: "Documents Quality Score for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: evidence
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - historical-evidence
+navigation:
+  role: reference
+  order: 200
+---
 # Quality Score
 
 ## Current assessment
@@ -25,3 +40,7 @@ Current repository quality is mixed.
 - one canonical auth story
 - one canonical tool inventory
 - black-box MCP tests at the Python layer
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

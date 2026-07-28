@@ -1,3 +1,18 @@
+---
+type: "Product Contract"
+title: "Runtime Modes"
+description: "Documents Runtime Modes for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - product-contract
+navigation:
+  role: foundational
+  order: 20
+---
 # Runtime Modes
 
 ## Purpose
@@ -49,3 +64,7 @@ Current source for that snapshot:
 - [../../ARCHITECTURE.md](../../ARCHITECTURE.md)
 - [rewrite-compatibility-contract.md](rewrite-compatibility-contract.md)
 - [../configuration.md](../configuration.md)
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

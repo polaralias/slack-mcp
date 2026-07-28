@@ -1,3 +1,18 @@
+---
+type: "Architecture Concept"
+title: "Codebase Map"
+description: "Documents Codebase Map for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - architecture-concept
+navigation:
+  role: foundational
+  order: 20
+---
 # Codebase Map
 
 ## Status
@@ -32,7 +47,7 @@ Older deep archaeology about the removed Go and npm runtime paths has been super
 - [tests/test_runtime_config.py](../tests/test_runtime_config.py)
   Native runtime configuration guardrails.
 - [tests/harness](../tests/harness)
-  Shared runtime, discovery, normalization, and tool-schema helpers.
+  Shared runtime, discovery, normalisation, and tool-schema helpers.
 
 ### Packaging and operations
 
@@ -56,3 +71,7 @@ Older deep archaeology about the removed Go and npm runtime paths has been super
 - [../ARCHITECTURE.md](../ARCHITECTURE.md)
 - [product-specs/runtime-modes.md](product-specs/runtime-modes.md)
 - [exec-plans/active/contract-harness.md](exec-plans/active/contract-harness.md)
+
+## Repository knowledge
+
+- [Documentation map](knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

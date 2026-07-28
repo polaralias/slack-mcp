@@ -1,10 +1,25 @@
+---
+type: "Security Boundary"
+title: "Auth Principles"
+description: "Documents Auth Principles for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - security-boundary
+navigation:
+  role: foundational
+  order: 20
+---
 # Auth Principles
 
 ## Purpose
 
-This document defines the desired end state for authentication and authorization in the rewritten Python-only server.
+This document defines the desired end state for authentication and authorisation in the rewritten Python-only server.
 
-It does not describe every legacy token path that may still exist in inherited code or package artifacts.
+It does not describe every legacy token path that may still exist in inherited code or package artefacts.
 
 ## Desired end state
 
@@ -38,10 +53,14 @@ Reasons:
 
 ## Migration note
 
-Legacy docs currently describe `xoxp` and `xoxb` support. Those paths may continue to exist in inherited code or packaged artifacts during migration, but they are not part of the final supported auth contract for the local Python rewrite.
+Legacy docs currently describe `xoxp` and `xoxb` support. Those paths may continue to exist in inherited code or packaged artefacts during migration, but they are not part of the final supported auth contract for the local Python rewrite.
 
 References:
 
 - [../product-specs/auth-model.md](../product-specs/auth-model.md)
 - [../SECURITY.md](../SECURITY.md)
 - [../../backend_runtime.py](../../backend_runtime.py)
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

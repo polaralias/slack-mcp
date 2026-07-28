@@ -1,3 +1,18 @@
+---
+type: "Product Contract"
+title: "Sandbox Validation"
+description: "Documents Sandbox Validation for the slack-mcp repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - slack-mcp
+  - product-contract
+navigation:
+  role: foundational
+  order: 20
+---
 # Sandbox Validation
 
 ## Purpose
@@ -8,16 +23,16 @@ It is not the contract itself.
 
 ## Canonical current-state position
 
-Sandbox validation is the repository's current evidence mechanism for real Slack-backed behavior.
+Sandbox validation is the repository's current evidence mechanism for real Slack-backed behaviour.
 
 It proves:
 
 - observed runtime exposure
 - observed schema and argument acceptance
-- observed success or failure behavior
+- observed success or failure behaviour
 - fixture gaps that prevent full proof closure
 
-It does not by itself approve final end-state behavior for the Python rewrite.
+It does not by itself approve final end-state behaviour for the Python rewrite.
 
 ## Evidence classes
 
@@ -42,7 +57,7 @@ Examples:
 
 Use:
 
-- defines intended end-state behavior
+- defines intended end-state behaviour
 - should not be rewritten to match transitional defects by default
 
 ### Harness execution guidance
@@ -100,7 +115,7 @@ The following surfaces require explicit sandbox fixture handling before final-co
 - `saved_list`
 - `saved_update`
 - `saved_clear_completed`
-- resource normalization checks that depend on seeded data
+- resource normalisation checks that depend on seeded data
 
 Canonical fixture guidance lives in:
 
@@ -111,7 +126,7 @@ Canonical fixture guidance lives in:
 - Do not treat a single successful manual run as sufficient harness proof.
 - Do not widen support claims from local source inspection alone.
 - Do not delete old evidence notes when the contract improves.
-- Promote proven behavior into canonical contract docs in the same tranche that makes the proof trustworthy.
+- Promote proven behaviour into canonical contract docs in the same tranche that makes the proof trustworthy.
 
 ## Relationship to other docs
 
@@ -119,3 +134,7 @@ Canonical fixture guidance lives in:
 - [tool-surface.md](tool-surface.md)
 - [../tool-reference.md](../tool-reference.md)
 - [../runtime-validation-2026-05-16.md](../runtime-validation-2026-05-16.md)
+
+## Repository knowledge
+
+- [Documentation map](../knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.
