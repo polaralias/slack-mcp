@@ -5,15 +5,15 @@ description = "FastMCP Python Slack server with direct native Slack session supp
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-  "fastmcp>=3.1.0",
-  "httpx>=0.28,<1"
+  "fastmcp>=3.4.5",
+  "httpx>=0.28.1,<1"
 ]
 
 [project.scripts]
 slack-mcp = "server:main"
 
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=83.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
