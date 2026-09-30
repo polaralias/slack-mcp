@@ -12,6 +12,7 @@ from urllib.parse import quote
 import httpx
 from fastmcp import FastMCP
 from fastmcp.server.auth import AccessToken, TokenVerifier
+from mcp_oauth import select_mcp_auth
 from starlette.responses import JSONResponse
 
 from backend_runtime import (
@@ -143,7 +144,7 @@ class StaticApiKeyVerifier(TokenVerifier):
 validate_auth_environment()
 
 api_keys = _load_api_keys()
-auth = StaticApiKeyVerifier(api_keys=api_keys, base_url=_runtime_env("BASE_URL")) if api_keys else None
+auth = select_mcp_auth("slack-mcp", StaticApiKeyVerifier, api_keys, _runtime_env("BASE_URL"))
 server = FastMCP(name="slack-mcp", auth=auth)
 mcp = server
 

@@ -15,7 +15,7 @@ RUN apt-get update \
 
 WORKDIR /app
 
-COPY pyproject.toml README.md fastmcp.json server.py backend_runtime.py slack_native.py ./
+COPY pyproject.toml README.md fastmcp.json server.py backend_runtime.py slack_native.py mcp_oauth.py ./
 COPY scripts ./scripts
 
 RUN uv sync --no-dev
