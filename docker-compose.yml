@@ -11,6 +11,9 @@ services:
       MCP_HOST: 0.0.0.0
       MCP_PORT: "${SLACK_MCP_PORT:-3005}"
       MCP_PATH: "${SLACK_MCP_PATH:-/mcp}"
+      FASTMCP_HOME: /app/state/fastmcp
+    volumes:
+      - ./state/fastmcp:/app/state/fastmcp
     ports:
       - "${SLACK_MCP_HOST_PORT:-3005}:${SLACK_MCP_PORT:-3005}"
     healthcheck:
